@@ -1,6 +1,26 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
-ReactDOM.render(<App />, document.getElementById('app'))
+import LoginPage from './pages/login/Login'
+
+class App extends Component {
+  constructor (props) {
+    super(props)
+  }
+  render = () => {
+    return (
+      <div className='content'>
+        <LoginPage />
+      </div>
+    )
+  }
+}
+
+ReactDOM.render((
+  <Provider store={store}>
+    <App />
+  </Provider>
+), document.getElementById('app'))
