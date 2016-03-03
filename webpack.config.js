@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
@@ -12,9 +14,10 @@ const PATHS = {
 };
 
 const common = {
-  entry: {
-    app: PATHS.app
-  },
+  entry: [
+    'babel-polyfill',
+    PATHS.app
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx']
   },

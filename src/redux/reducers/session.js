@@ -52,7 +52,7 @@ const loginSessionFail = (response) => ({
   payload: response
 })
 
-export const loginSession = ({ email, password }) => {
+const loginSession = ({ email, password }) => {
   const digest = sha256(`${email}${password}`).toString()
   const url = 'auth/login'
   const options = {
@@ -66,6 +66,13 @@ export const loginSession = ({ email, password }) => {
     type: LOGIN,
     payload: _getRequest(url, options).then(loginSessionSuccess, loginSessionFail)
   }
+}
+
+export const handleSubmitLogin = (values, dispatch) => {
+  // in this project `dispatch` returns a Promise which is very convenient
+  // since it allows us to both fire a cool action *and* have redux-form
+  // be informed of the outcome
+  return dispatch(loginSession(values))
 }
 
 export const clearSession = () => ({

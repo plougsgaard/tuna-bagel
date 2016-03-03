@@ -1,3 +1,4 @@
 export posts from './posts'
 export userProfile from './userProfile'
 export session from './session'
+export { reducer as form } from 'redux-form'
