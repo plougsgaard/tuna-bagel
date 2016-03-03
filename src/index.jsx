@@ -7,6 +7,8 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
+import DevTools from './redux/DevTools'
+
 import LandingPage from './pages/landing'
 import LoginPage from './pages/login'
 import AboutPage from './pages/about'
@@ -24,7 +26,7 @@ class App extends Component {
         <ul className='menu'>
           <MenuLink to='/' onlyActiveOnIndex>Home</MenuLink>
           <MenuLink to='/login'>Login</MenuLink>
-          <MenuLink to='/About'>About</MenuLink>
+          <MenuLink to='/about'>About</MenuLink>
         </ul>
         {children}
       </div>
@@ -34,12 +36,15 @@ class App extends Component {
 
 ReactDOM.render((
   <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <IndexRoute component={LandingPage} />
-        <Route path="/login" component={LoginPage}/>
-        <Route path="/about" component={AboutPage}/>
-      </Route>
-    </Router>
+    <div>
+      <Router history={browserHistory}>
+        <Route path="/" component={App}>
+          <IndexRoute component={LandingPage} />
+          <Route path="/login" component={LoginPage}/>
+          <Route path="/about" component={AboutPage}/>
+        </Route>
+      </Router>
+      <DevTools />
+    </div>
   </Provider>
 ), document.getElementById('app'))

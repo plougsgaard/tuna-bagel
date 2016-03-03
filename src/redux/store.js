@@ -2,7 +2,9 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import promiseMiddleware from './promiseMiddleware'
 import createLogger from 'redux-logger'
 
-import reducers from './reducers'
+import DevTools from './DevTools'
+
+import * as reducers from './reducers'
 
 const logger = createLogger({
   level: 'info',
@@ -14,7 +16,8 @@ const logger = createLogger({
 })
 
 const composition = compose(
-  applyMiddleware( promiseMiddleware, logger )
+  applyMiddleware( promiseMiddleware, logger ),
+  DevTools.instrument()
 )
 const createStoreWithMiddleware = composition(createStore)
 const reducer = combineReducers(reducers)

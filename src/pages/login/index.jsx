@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
 import connectToStore from '../../redux/connectToStore'
 
-import { loadUserProfile } from '../../redux/reducers/userProfile'
+import { loginSession } from '../../redux/reducers/session'
+
+import { LoginForm } from '../../components/forms'
 
 class LoginPage extends Component {
   constructor (props) {
     super(props)
   }
-  componentWillMount = () => {
-    this.props.dispatch(loadUserProfile('foobar'))
+  static mapState = ({ session }) => ({ session })
+  onSubmit = (e) => {
+    e.preventDefault()
+    const email = 'a@a.a'
+    const password = 'secret'
+    this.props.dispatch(loginSession({ email, password }))
   }
-  static mapState = ({ posts, userProfile }) => ({ posts, userProfile })
   render () {
     return (
       <div>
-        Crazy Login Form
+        <LoginForm onSubmit={this.onSubmit}/>
       </div>
     )
   }

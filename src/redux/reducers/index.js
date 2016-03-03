@@ -1,7 +1,3 @@
-import posts from './posts'
-import userProfile from './userProfile'
-
-export default {
-  posts,
-  userProfile
-}
+export posts from './posts'
+export userProfile from './userProfile'
+export session from './session'

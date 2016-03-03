@@ -1,8 +1,34 @@
 import fetch from 'isomorphic-fetch'
 
-const _getRequest = (url) => {
+import { HOST, PORT } from '../config'
+
+const _parseUrl = (url) => {
+  if (!url) {
+    return ''
+  }
+  if (url.indexOf('http') === 0) {
+    return url
+  }
+  if (!PORT) {
+    return `http://${HOST}/${url}`
+  }
+  return `http://${HOST}:${PORT}/${url}`
+}
+
+const _parseOptions = (options) => {
+  if (options.body) {
+    options.body = JSON.stringify(options.body)
+    options.headers = {
+      ...options.headers,
+      'Content-Type': 'application/json'
+    }
+  }
+  return options
+}
+
+export const _getRequest = (url, options) => {
   return new Promise((resolve, reject) => {
-    fetch(url).then(
+    fetch(_parseUrl(url), _parseOptions(options)).then(
       (cnt) => {
         const { status } = cnt
         if (status >= 400) {

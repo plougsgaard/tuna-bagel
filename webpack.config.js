@@ -6,6 +6,7 @@ const NpmInstallPlugin = require('npm-install-webpack-plugin');
 const TARGET = process.env.NODE_ENV || 'development'
 
 const PATHS = {
+  root: __dirname,
   app: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'build')
 };
@@ -48,7 +49,7 @@ if (TARGET === 'development') {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
-      contentBase: PATHS.build,
+      contentBase: PATHS.root,
 
       historyApiFallback: true,
       hot: true,
