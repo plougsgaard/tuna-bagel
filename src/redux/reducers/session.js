@@ -1,37 +1,22 @@
-import { _getRequest } from '../../network'
+import { httpRequest } from '../../network'
 
 import sha256 from 'crypto-js/sha256'
 
-const LOGIN = 'tuna-bagel/session/LOGIN'
-const LOGIN_SUCCESS = 'tuna-bagel/session/LOGIN_SUCCESS'
-const LOGIN_FAIL = 'tuna-bagel/session/LOGIN_FAIL'
+export const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
+
+const SET = 'tuna-bagel/session/SET'
 const CLEAR = 'tuna-bagel/session/CLEAR'
 
 const initialState = {
-  token: null,
-  loading: false,
-  failed: false
+  token: null
 }
 
 const session = (state = initialState, action = {}) => {
   const { type, payload } = action
   switch (type) {
-    case LOGIN:
+    case SET:
       return {
-        ...state,
-        loading: true
-      }
-    case LOGIN_SUCCESS:
-      return {
-        token: payload.token,
-        loading: false,
-        failed: false
-      }
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        loading: false,
-        failed: true
+        token: payload
       }
     case CLEAR:
       return initialState
@@ -42,17 +27,17 @@ const session = (state = initialState, action = {}) => {
 
 export default session
 
-const loginSessionSuccess = (response) => ({
-  type: LOGIN_SUCCESS,
-  payload: response
+const setSession = (token) => ({
+  type: SET,
+  payload: token
 })
 
-const loginSessionFail = (response) => ({
-  type: LOGIN_FAIL,
-  payload: response
+export const clearSession = () => ({
+  action: CLEAR
 })
 
-const loginSession = ({ email, password }) => {
+const loginSession = async ({ email, password }) => {
+  await sleep(50)
   const digest = sha256(`${email}${password}`).toString()
   const url = 'auth/login'
   const options = {
@@ -62,19 +47,15 @@ const loginSession = ({ email, password }) => {
       digest
     }
   }
-  return {
-    type: LOGIN,
-    payload: _getRequest(url, options).then(loginSessionSuccess, loginSessionFail)
-  }
+  return await httpRequest(url, options)
 }
 
-export const handleSubmitLogin = (values, dispatch) => {
-  // in this project `dispatch` returns a Promise which is very convenient
-  // since it allows us to both fire a cool action *and* have redux-form
-  // be informed of the outcome
-  return dispatch(loginSession(values))
+/**
+ * Pattern for `redux-form` handlers. Example for login.
+ * Make an http request. If it goes bad it will leak a rejected promise with
+ * the `_error` field set. The form picks up on this and cancels the ordeal.
+ */
+export const handleSubmitLogin = async (values, dispatch) => {
+  const ls = await loginSession(values)
+  return dispatch(setSession(ls)) 
 }
-
-export const clearSession = () => ({
-  action: CLEAR
-})

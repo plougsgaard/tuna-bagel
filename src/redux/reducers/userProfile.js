@@ -49,24 +49,6 @@ export const loadUserProfileFail = (reason) => ({
 
 export const loadUserProfile = (token) => ({
   type: LOAD,
-  payload: getRequest({
-    url: 'http://www.mocky.io/v2/56cc2f48280000c100219da3',
-    //url: 'http://www.mocky.io/v2/56cc266e280000c100219d9a',
-    success: loadUserProfileSuccess,
-    fail: loadUserProfileFail
-  })
+  payload: `Let's implement this at another time.`
 })
 
-/*
-const loadUserProfileFromServer = (token) =>
-  new Promise((resolve, reject) => {
-    fetch('http://www.mocky.io/v2/56cc266e280000c100219d9a').then(
-      (cnt) => resolve(loadUserProfileSuccess(cnt.json())),
-      (err) => reject(loadUserProfileFail(err))
-    )
-  })
-
-export const loadUserProfile = (token) => ({
-  type: LOAD,
-  payload: loadUserProfileFromServer(token)
-})*/

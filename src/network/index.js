@@ -4,7 +4,7 @@ import { HOST, PORT } from '../config'
 
 const _parseUrl = (url) => {
   if (!url) {
-    return ''
+    throw new Error(`Missing URL.`)
   }
   if (url.indexOf('http') === 0) {
     return url
@@ -26,33 +26,19 @@ const _parseOptions = (options) => {
   return options
 }
 
-export const _getRequest = (url, options) => {
+export const httpRequest = (url, options) => {
   return new Promise((resolve, reject) => {
     fetch(_parseUrl(url), _parseOptions(options)).then(
-      (cnt) => {
-        const { status } = cnt
-        if (status >= 400) {
-          console.log(cnt)
-          reject(new Error(`Server responded with ${status}.`))
+      async (response) => {
+        if (response.status >= 400) {
+          reject({ _error: await response.json() })
         } else {
-          resolve(cnt.json())
+          resolve(await response.json())
         }
       },
-      (err) => {
-        reject(err)
+      async (response) => {
+        reject({ _error: await response.json() })
       }
-    )
-  })
-}
-
-export const getRequest = ({ url, success, fail }) => {
-  if (!success || !fail) {
-    return _getRequest(url)
-  }
-  return new Promise((resolve, reject) => {
-    _getRequest(url).then(
-      (cnt) => resolve(success(cnt)),
-      (err) => reject(fail(err))
     )
   })
 }
