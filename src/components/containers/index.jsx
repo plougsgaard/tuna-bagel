@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
 
+import { clearSession } from '../../redux/reducers/session'
+
 import { TopBar } from '../menus'
+
+export const redirectLogout = (store) =>
+  (nextState, replace) => {
+    store.dispatch(clearSession())
+    replace({
+      pathname: '/landing'
+    })
+  }
 
 export const redirectUnauthed = (store) =>
   (nextState, replace) => {
@@ -19,8 +29,7 @@ export const redirectAuthed = (store) =>
     const state = store.getState()
     if (state.session && state.session.token) {
       replace({
-        pathname: '/',
-        state: { nextPathname: nextState.location.pathname }
+        pathname: '/'
       })
     }
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import connectToStore from '../../redux/connectToStore'
 
 import { handleSubmitLogin } from '../../redux/reducers/session'
@@ -9,11 +9,12 @@ class LoginPage extends Component {
   constructor (props) {
     super(props)
   }
-  static mapState = ({ session }) => ({ session })
+  static contextTypes = { router: PropTypes.object }
   render () {
+    const nextPath = this.props.location.state.nextPathname
     return (
       <div>
-        <LoginForm onSubmit={handleSubmitLogin}/>
+        <LoginForm onSubmit={handleSubmitLogin(nextPath)}/>
       </div>
     )
   }
