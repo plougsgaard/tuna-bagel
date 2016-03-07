@@ -8,3 +8,7 @@ input[data-toggle]:checked + label:active {
 
 .button-group.toggle li:not(first-child) {
   margin: 0 -0.9rem; }
+
+.top-bar, .top-bar ul {
+  background-color: transparent;
+}

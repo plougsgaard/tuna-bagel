@@ -1,7 +1,13 @@
 import React from 'react'
+import _ from 'lodash'
+import { Link } from 'react-router'
 import { reduxForm } from 'redux-form'
 
-import { OneLineError } from '../errors'
+import { validateRequiredFields } from './util'
+import { FormFieldError, OneLineError } from '../errors'
+
+const fields = ['email', 'password']
+const validate = validateRequiredFields()
 
 const BaseForm = ({
   fields: {
@@ -16,22 +22,18 @@ const BaseForm = ({
     <div className='medium-6 medium-centered large-4 large-centered columns'>
       <form onSubmit={handleSubmit}>
         <div className='row column log-in-form'>
-          <h4 className='text-center'>Log In</h4>
-          <label>Email
+          <h4 className='text-center'>Log In</h4> 
+          <label>Email <FormFieldError {...email} />
             <input type='text' placeholder='somebody@example.com' {...email} />
           </label>
-          {email.touched && email.error && <div>{email.error}</div>}
-          <label>Password
+          <label>Password <FormFieldError {...password} />
             <input type='password' placeholder='Password' {...password} />
           </label>
-          {password.touched && password.error && <div>{password.error}</div>}
           <input id='show-password' type='checkbox' />
-          <label htmlFor='show-password'>Show password</label>
+          <label htmlFor='show-password'>I like kittens</label>
           {error && OneLineError({ ...error })}
-          <button type='submit' className='button expanded' disabled={submitting}>
-            {submitting ? <i>Log In</i> : 'Log In'}
-          </button>
-          <p className='text-center'><a href='#'>Forgot your password?</a></p>
+          <button type='submit' className='button expanded' disabled={submitting}>Let me in</button>
+          <p className='text-center'><Link to='/forgot'>Need help remembering?</Link></p>
         </div>
       </form>
     </div>
@@ -40,5 +42,6 @@ const BaseForm = ({
 
 export default reduxForm({
   form: 'login',
-  fields: ['email', 'password']
+  fields,
+  validate
 })(BaseForm)

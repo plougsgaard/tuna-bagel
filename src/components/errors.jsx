@@ -32,3 +32,9 @@ export const OneLineError = ({ output, isBoom }) => {
     </p>
   )
 }
+
+export const FormFieldError = ({ touched, error }) => (
+  <span style={{
+    color: '#EC5840'
+  }}>{touched && error ? error : ''}</span>
+)

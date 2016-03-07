@@ -4,19 +4,14 @@ require('babel-polyfill');
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import Router from './router'
 
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
-import DevTools from './redux/DevTools'
+import { NODE_ENV } from './config'
 
-import LandingPage from './pages/landing'
-import LoginPage from './pages/login'
-import AboutPage from './pages/about'
-
-import { MenuLink } from './components/links'
+import { TopBar } from './components/menus'
 
 class App extends Component {
   constructor (props) {
@@ -26,12 +21,12 @@ class App extends Component {
     const { children } = this.props
     return (
       <div className='row'>
-        <ul className='menu'>
-          <MenuLink to='/' onlyActiveOnIndex>Home</MenuLink>
-          <MenuLink to='/login'>Login</MenuLink>
-          <MenuLink to='/about'>About</MenuLink>
-        </ul>
-        {children}
+        <div className='row'>
+          <TopBar />
+        </div>
+        <div className='row' style={{ paddingTop: '1.5em' }}>
+          {children}
+        </div>
       </div>
     )
   }
@@ -40,14 +35,8 @@ class App extends Component {
 ReactDOM.render((
   <Provider store={store}>
     <div>
-      <Router history={browserHistory}>
-        <Route path="/" component={App}>
-          <IndexRoute component={LandingPage} />
-          <Route path="/login" component={LoginPage}/>
-          <Route path="/about" component={AboutPage}/>
-        </Route>
-      </Router>
-      <DevTools />
+      <Router root={App}/>
+      {NODE_ENV !== 'production' && React.createElement(require('./redux/DevTools'))}
     </div>
   </Provider>
 ), document.getElementById('app'))

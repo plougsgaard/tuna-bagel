@@ -7,8 +7,8 @@ import { createDevTools } from 'redux-devtools'
 import DiffMonitor from 'redux-devtools-diff-monitor'
 import DockMonitor from 'redux-devtools-dock-monitor'
 
-// createDevTools takes a monitor and produces a DevTools component
-export default createDevTools(
+// export the old way because we `require` it the old way
+module.exports = createDevTools(
   <DockMonitor
     toggleVisibilityKey='ctrl-h'
     changePositionKey='ctrl-q'>
