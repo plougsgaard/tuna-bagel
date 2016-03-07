@@ -1,3 +1,4 @@
+import LocalStorage from 'store'
 import { httpRequest } from '../../network'
 
 import sha256 from 'crypto-js/sha256'
@@ -8,17 +9,18 @@ const SET = 'tuna-bagel/session/SET'
 const CLEAR = 'tuna-bagel/session/CLEAR'
 
 const initialState = {
-  token: null
+  token: LocalStorage.get('token')
 }
 
 const session = (state = initialState, action = {}) => {
   const { type, payload } = action
   switch (type) {
     case SET:
-      return {
-        token: payload
-      }
+      const { token } = payload
+      LocalStorage.set('token', token)
+      return { token }
     case CLEAR:
+      LocalStorage.clear()
       return initialState
     default:
       return state
@@ -57,5 +59,5 @@ const loginSession = async ({ email, password }) => {
  */
 export const handleSubmitLogin = async (values, dispatch) => {
   const ls = await loginSession(values)
-  return dispatch(setSession(ls)) 
+  return dispatch(setSession(ls))
 }

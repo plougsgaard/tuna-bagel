@@ -13,29 +13,10 @@ import { NODE_ENV } from './config'
 
 import { TopBar } from './components/menus'
 
-class App extends Component {
-  constructor (props) {
-    super(props)
-  }
-  render = () => {
-    const { children } = this.props
-    return (
-      <div className='row'>
-        <div className='row'>
-          <TopBar />
-        </div>
-        <div className='row' style={{ paddingTop: '1.5em' }}>
-          {children}
-        </div>
-      </div>
-    )
-  }
-}
-
 ReactDOM.render((
   <Provider store={store}>
     <div>
-      <Router root={App}/>
+      <Router store={store}/>
       {NODE_ENV !== 'production' && React.createElement(require('./redux/DevTools'))}
     </div>
   </Provider>
