@@ -1,19 +1,27 @@
 import { browserHistory } from 'react-router'
 import LocalStorage from 'store'
 import { httpRequest } from '../../network'
-
 import sha256 from 'crypto-js/sha256'
 
-export const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
+///////////////////////////////////////////////////////////////////////////////
+// Action Creators ////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 const SET = 'tuna-bagel/session/SET'
 const CLEAR = 'tuna-bagel/session/CLEAR'
+
+export const setSession = (token) => ({ type: SET, payload: token })
+export const clearSession = () => ({ type: CLEAR })
+
+///////////////////////////////////////////////////////////////////////////////
+// Reducer ////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 const initialState = {
   token: LocalStorage.get('token')
 }
 
-const session = (state = initialState, action = {}) => {
+export default function sessionReducer (state = initialState, action = {}) {
   const { type, payload } = action
   switch (type) {
     case SET:
@@ -28,20 +36,18 @@ const session = (state = initialState, action = {}) => {
   }
 }
 
-export default session
+///////////////////////////////////////////////////////////////////////////////
+// Controllers ////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
-const setSession = (token) => ({
-  type: SET,
-  payload: token
-})
+export const makeDigest = ({ email, password }) =>
+  sha256(`${email}${password}`).toString()
 
-export const clearSession = () => ({
-  type: CLEAR
-})
+export const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
 
-const loginSession = async ({ email, password }) => {
+const httpLogin = async ({ email, password }) => {
   await sleep(500)
-  const digest = sha256(`${email}${password}`).toString()
+  const digest = makeDigest({ email, password })
   const url = 'auth/login'
   const options = {
     method: 'post',
@@ -59,7 +65,7 @@ const loginSession = async ({ email, password }) => {
 export const handleSubmitLogin = (nextPath = '/') =>
   async (values, dispatch) => {
     // get token from server - or fail, leaking a rejected promise
-    const token = await loginSession(values)
+    const token = await httpLogin(values)
     // if we get here it means we didn't fail. dispatch a SET action
     dispatch(setSession(token))
     // TODO potential race condition - would wait for store to update if there was a way
