@@ -11,7 +11,7 @@ class LoginPage extends Component {
   }
   static contextTypes = { router: PropTypes.object }
   render () {
-    const nextPath = this.props.location.state.nextPathname
+    const nextPath = _.get(this.props, 'location.state.nextPathname')
     return (
       <div>
         <LoginForm onSubmit={handleSubmitLogin(nextPath)}/>

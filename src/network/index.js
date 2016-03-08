@@ -31,9 +31,19 @@ export const httpRequest = (url, options) => {
     fetch(_parseUrl(url), _parseOptions(options)).then(
       async (response) => {
         if (response.status >= 400) {
-          reject({ _error: await response.json() })
+          try {
+            reject({ _error: await response.json() })
+          }
+          catch (err) {
+            reject({ _error: response.statusText })
+          }
         } else {
-          resolve(await response.json())
+          try {
+            resolve(await response.json())
+          }
+          catch (err) {
+            resolve(response.statusText)
+          }
         }
       },
       async (response) => {

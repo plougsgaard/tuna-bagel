@@ -1,8 +1,7 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import promiseMiddleware from './promiseMiddleware'
 import createLogger from 'redux-logger'
-
-import DevTools from './DevTools'
+import { NODE_ENV } from '../config'
 
 import * as reducers from './reducers'
 
@@ -15,16 +14,15 @@ const logger = createLogger({
   })
 })
 
-const composition = compose(
-  applyMiddleware( promiseMiddleware, logger ),
-  DevTools.instrument()
-)
+const composition = (NODE_ENV === 'production')
+  ? compose(applyMiddleware( promiseMiddleware ))
+  : compose(applyMiddleware( promiseMiddleware, logger ), require('./DevTools').instrument())
 const createStoreWithMiddleware = composition(createStore)
 const reducer = combineReducers(reducers)
 
 const store = createStoreWithMiddleware(reducer)
 
-if (module.hot) {
+if (NODE_ENV !== 'production' && module.hot) {
   // Enable Webpack hot module replacement for reducers
   module.hot.accept('./reducers', () => {
     const nextReducer = require('./reducers')
