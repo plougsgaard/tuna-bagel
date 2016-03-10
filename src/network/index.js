@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-import { HOST, PORT } from '../config'
+import { API } from '../config'
 
 const _parseUrl = (url) => {
   if (!url) {
@@ -9,10 +9,7 @@ const _parseUrl = (url) => {
   if (url.indexOf('http') === 0) {
     return url
   }
-  if (!PORT) {
-    return `http://${HOST}/${url}`
-  }
-  return `http://${HOST}:${PORT}/${url}`
+  return `${API}/${url}`
 }
 
 const _parseOptions = (options) => {

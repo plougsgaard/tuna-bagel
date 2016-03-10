@@ -10,7 +10,8 @@ const TARGET = process.env.NODE_ENV || 'development'
 const PATHS = {
   root: __dirname,
   app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'build')
+  build: path.join(__dirname, 'build'),
+  dist: path.join(__dirname, 'dist')
 };
 
 const common = {
@@ -77,5 +78,10 @@ if (TARGET === 'development') {
 }
 
 if (TARGET === 'production') {
-  module.exports = merge(common, {});
+  module.exports = merge(common, {
+    output: {
+      path: PATHS.dist,
+      filename: 'bundle.js'
+    }
+  });
 }

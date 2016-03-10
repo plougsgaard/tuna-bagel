@@ -1,5 +1,6 @@
 *.log
 *~
-build/bundle.js
+*.config
+dist/*
+build/*
 node_modules
-scratch.js

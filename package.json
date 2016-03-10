@@ -37,7 +37,9 @@
     "webpack-merge": "^0.7.3"
   },
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "./scripts/build.sh",
+    "deploy": "./scripts/deploy.sh"
   },
   "author": "Thomas Plougsgaard <npm@plougsgaard.dk> (https://github.com/plougsgaard)",
   "license": "ISC"
