@@ -1,4 +1,10 @@
-# tuna-bagel
+# Tuna Bagel
+
+Choose one or more:
+
+- tuna fish eating a bagel
+- tuna fish jumping hoops through a bagel
+- bagel eating a tuna fish
 
 ## Install
 
@@ -15,21 +21,9 @@ npm start
 
 ## Production
 
-### Build
-
-```
-npm run build
-```
-
-### Deploy
-
-```
-npm run deploy
-```
-
 #### Config
 
-Deployment is configured with the `variables.config` file.
+Deployment depends on variables set in the `variables.config` file. If the file doesn't exist it just reads the environment as normal.
 
 Example layout:
 
@@ -39,4 +33,10 @@ export NODE_ENV="production"
 export API="http://api.example.com:9999"
 export SCP_HOST="example.com"
 export SCP_PATH="~/path/to/wwwroot/"
+```
+
+#### Deploy
+
+```
+npm run deploy
 ```
