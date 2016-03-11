@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import promiseMiddleware from './promiseMiddleware'
+import { apiMiddleware } from './apiMiddleware'
 import createLogger from 'redux-logger'
 import { NODE_ENV } from '../config'
 
@@ -15,8 +16,8 @@ const logger = createLogger({
 })
 
 const composition = (NODE_ENV === 'production')
-  ? compose(applyMiddleware( promiseMiddleware ))
-  : compose(applyMiddleware( promiseMiddleware, logger ), require('./DevTools').instrument())
+  ? compose(applyMiddleware( promiseMiddleware, apiMiddleware ))
+  : compose(applyMiddleware( promiseMiddleware, apiMiddleware, logger ), require('./DevTools').instrument())
 const createStoreWithMiddleware = composition(createStore)
 const reducer = combineReducers(reducers)
 
