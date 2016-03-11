@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
-import connectToStore from '../../redux/connectToStore'
+import { connect } from 'react-redux'
 
-class AboutPage extends Component {
-  constructor (props) {
-    super(props)
-  }
-  render () {
-    return (
-      <div>
-        Because sometimes sites need an about page to make it seem there is content.
-      </div>
-    )
-  }
-}
+const connector = connect(({ userProfile }) => ({
+  userProfile
+}))
 
-export default connectToStore(AboutPage)
+const AboutPage = ({
+  userProfile: {
+    loaded
+  }
+}) => (
+  <div>
+    <p>AboutPage</p>
+    <p>Loaded? {Boolean(loaded).toString()}</p>
+    <p>Because sometimes you need things to be about something.</p>
+  </div>
+)
+
+export default connector(AboutPage)
