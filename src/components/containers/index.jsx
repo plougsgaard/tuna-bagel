@@ -41,11 +41,11 @@ export class PrivateContainer extends Component {
   render = () => {
     const { children } = this.props
     return (
-      <div className='row'>
+      <div>
         <div className='row'>
           <TopBar />
         </div>
-        <div className='row' style={{ paddingTop: '1.5em' }}>
+        <div className='row' style={{ padding: '1.5em' }}>
           {children}
         </div>
       </div>

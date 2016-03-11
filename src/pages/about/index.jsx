@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { provideHooks } from 'redial'
 
 const connector = connect(({ userProfile }) => ({
   userProfile

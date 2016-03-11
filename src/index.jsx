@@ -7,8 +7,10 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
 import Router from './router'
-import store from './redux/store'
+import configureStore from './redux/store'
 import { NODE_ENV } from './config'
+
+const store = configureStore({})
 
 ReactDOM.render((
   <Provider store={store}>
