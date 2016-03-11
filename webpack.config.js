@@ -43,7 +43,8 @@ const common = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': `"${TARGET}"`
+        'NODE_ENV': `"${TARGET}"`,
+        'API': `"${process.env.API}"`
       }
     })
   ]
