@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { httpRequest } from '../../network'
 
 export const isPromise = (val) => val && typeof val.then === 'function'
 
@@ -32,26 +33,32 @@ export function apiMiddleware ({ dispatch, getState }) {
   return (next) => async (action) => {
     const {
       types,
-      callAPI,
-      shouldCallAPI = callAlways,
+      path,
+      options = {
+        method: 'get'
+      },
+      body,
+      shouldCall = callAlways,
       payload = {}
     } = action
+
+    console.log(action)
 
     if (!types) {
       return next(action)
     }
 
     if (_.size(types) !== 3) {
-      throw new Error('Expected an array of three string types.')
+      throw new Error(`Expected an array of three string types.`)
     }
 
-    if (!isPromise(callAPI)) {
-      throw new Error('Expected `callAPI` to be a Promise.')
+    if (_.isEmpty(path)) {
+      throw new Error(`Expected 'path'.`)
     }
 
-    if (!shouldCallAPI(getState())) {
-      console.log('API was not called due to the wise decision of ', shouldCallAPI)
-      return
+    if (!shouldCall(getState())) {
+      console.log('API was not called due to the wise decision of ', shouldCall)
+      return next(action)
     }
 
     const [
@@ -65,20 +72,21 @@ export function apiMiddleware ({ dispatch, getState }) {
       ...payload
     })
 
+    console.log(path, options)
     try {
-      const body = await callAPI
+      const body = await httpRequest(path, options)
       dispatch({
         type: successType,
-        ...payload,
         body,
-        lastUpdated: Date.now()
+        lastUpdated: Date.now(),
+        ...payload
       })
     }
     catch (error) {
       dispatch({
         type: failureType,
-        ...payload,
-        error
+        error,
+        ...payload
       })
     }
   }

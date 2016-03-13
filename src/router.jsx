@@ -16,6 +16,7 @@ import ForgotPage from './pages/forgot'
 import AboutPage from './pages/about'
 import HomePage from './pages/home'
 import ProfilePage from './pages/profile'
+import HatsPage from './pages/hats'
 
 const RootRouter = ({ store }) => (
   <Router history={browserHistory}>
@@ -30,6 +31,7 @@ const RootRouter = ({ store }) => (
       <Route path='/logout' onEnter={redirectLogout(store)} />
       <Route path='/about' component={AboutPage} />
       <Route path='/profile' component={ProfilePage} />
+      <Route path='/hats' component={HatsPage} />
     </Route>
   </Router>
 )

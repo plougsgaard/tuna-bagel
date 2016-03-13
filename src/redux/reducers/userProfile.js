@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { httpRequest } from '../../network'
+import { callWhenExpired } from '../middleware/apiMiddleware'
 
 ///////////////////////////////////////////////////////////////////////////////
 // Action Creators ////////////////////////////////////////////////////////////
@@ -13,17 +14,19 @@ const LOAD_FAILURE = 'tuna-bagel/userProfile/LOAD_FAILURE'
 // Reducer ////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+const MOUNT_POINT = 'userProfile'
+
 const initialState = {
   requestCount: 0,
   loading: false,
   error: null,
   body: {},
-  lastFetched: null
+  lastUpdated: null
 }
 
 export default function userProfileReducer (state = initialState, action = {}) {
   const { requestCount } = state
-  const { type, body, error, lastFetched } = action
+  const { type, body, error, lastUpdated } = action
   switch (type) {
     case LOAD_REQUEST:
       return {
@@ -37,7 +40,7 @@ export default function userProfileReducer (state = initialState, action = {}) {
         loading: false,
         error: null,
         body,
-        lastFetched
+        lastUpdated
       }
     case LOAD_FAILURE:
       return {
@@ -55,14 +58,7 @@ export default function userProfileReducer (state = initialState, action = {}) {
 ///////////////////////////////////////////////////////////////////////////////
 
 export const loadUserProfile = () => ({
-  // Types of actions to emit before and after
   types: [LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE],
-
-  shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
-
-  // Perform the fetching:
-  callAPI: () => httpRequest('user/profile'),
-
-  // Arguments to inject in begin/end actions
-  payload: {}
+  shouldCallAPI: callWhenExpired(MOUNT_POINT),
+  callAPI: httpRequest('auth/login', { method: 'post' })
 })

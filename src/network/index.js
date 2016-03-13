@@ -9,6 +9,9 @@ const _parseUrl = (url) => {
   if (url.indexOf('http') === 0) {
     return url
   }
+  if (url[0] === '/') {
+    return `${API}${url}`
+  }
   return `${API}/${url}`
 }
 

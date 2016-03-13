@@ -7,6 +7,7 @@ const LeftMenu = ({}) => (
     <MenuLink to='/login'>Login</MenuLink>
     <MenuLink to='/about'>About</MenuLink>
     <MenuLink to='/profile'>Profile</MenuLink>
+    <MenuLink to='/hats'>Hats</MenuLink>
   </ul>
 )
 
