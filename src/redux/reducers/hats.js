@@ -1,21 +1,13 @@
 import { combineReducers } from 'redux'
-import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE } from '../actions/hats'
-import { reduceReducers, mergeReducers, loadEntriesReducer } from './util'
+import { reduceReducers, mergeReducers, loadEntriesReducer, addEntriesReducer } from './util'
+import {
+  LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE,
+  ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE
+} from '../actions/hats'
 
-const hatsReducer = (state = {
-  hat: 'Stetson',
-  very: 'clearly',
-  aye: 'state'
-}, action = {}) => {
+const hatsReducer = (state = {}, action = {}) => {
   const { type } = action
   switch (type) {
-    case 'FOOBAR':
-      console.log('wow foobar triggered!')
-      return {
-        ...state,
-        hat: 'very pretty',
-        loading: true
-      }
     default:
       return state
   }
@@ -23,5 +15,6 @@ const hatsReducer = (state = {
 
 export default mergeReducers(
   hatsReducer,
-  loadEntriesReducer([ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ])
+  loadEntriesReducer([ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ]),
+  addEntriesReducer([ ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE ])
 )

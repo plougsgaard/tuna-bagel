@@ -13,6 +13,50 @@ export const mergeReducers = (...reducers) => {
     _.reduce(reducers, (memo, reducer) => reducer(memo, action), state)
 }
 
+export const addEntriesReducer = ([
+  requestType,
+  successType,
+  failureType
+]) => (state = {
+  entries: [],
+  addEntries: [],
+  addError: null,
+  addStats: {
+    timesRequested: 0,
+    timesFailed: 0
+  }
+}, action = {}) => {
+  const { type, body, payload, error } = action
+  switch (type) {
+    case requestType:
+      return {
+        ...state,
+        addEntries: _.concat(state.addEntries, payload),
+        addStats: {
+          ...state.addStats,
+          timesRequested: (state.addStats.timesRequested + 1)
+        }
+      }
+    case successType:
+      return {
+        ...state,
+        entries: _.concat(state.entries, body),
+        addEntries: _.without(state.addEntries, payload),
+        lastUpdated: Date.now()
+      }
+    case failureType:
+      return {
+        ...state,
+        addError: error,
+        addStats: {
+          ...state.addStats,
+          timesFailed: (state.addStats.timesFailed + 1)
+        }
+      }
+    default:
+      return state
+  }
+}
 
 export const loadEntriesReducer = ([
   requestType,

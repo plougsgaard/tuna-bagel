@@ -19,7 +19,6 @@ class ProfilePage extends Component {
   render () {
     const { userProfile } = this.props
     const { body } = userProfile
-    console.log(userProfile)
     return (
       <div>
         <h1>User Profile Page</h1>

@@ -32,6 +32,7 @@ export const callWhenExpired = (mountPoint, lastUpdatedKey = 'lastUpdated') => (
 export function apiMiddleware ({ dispatch, getState }) {
   return (next) => async (action) => {
     const {
+      api,
       types,
       path,
       options = {
@@ -42,7 +43,11 @@ export function apiMiddleware ({ dispatch, getState }) {
       payload = {}
     } = action
 
-    console.log(action)
+    if (api !== 'load') {
+      return next(action)
+    }
+
+    //console.log('apiMiddleware', action)
 
     if (!types) {
       return next(action)
@@ -72,7 +77,6 @@ export function apiMiddleware ({ dispatch, getState }) {
       ...payload
     })
 
-    console.log(path, options)
     try {
       const body = await httpRequest(path, options)
       dispatch({

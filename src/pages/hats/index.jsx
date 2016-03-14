@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import { loadHats, foobar } from '../../redux/actions/hats'
+import { loadHats, addHat, foobar } from '../../redux/actions/hats'
 
 const connector = connect(({ hats }) => ({
   hats
@@ -20,11 +21,14 @@ class HatsPage extends Component {
   render () {
     const { hats } = this.props
     const { body } = hats
-    console.log(hats)
     return (
       <div>
         <h1>Hats</h1>
         <p>Loading: {Boolean(hats.loading).toString()}</p>
+        {_.map(hats.entries, (h) => (
+          <p key={h.id}>{h.id} - {h.name}</p>
+        ))}
+        <button onClick={() => this.props.dispatch(addHat('Saq'))}>Add another hat why not</button>
       </div>
     )
   }

@@ -17,8 +17,5 @@ const AboutPage = ({
     <p>Because sometimes you need things to be about something.</p>
   </div>
 )
-AboutPage.componentWillMount = () => {
-  console.log('mehhh???')
-}
 
 export default connector(AboutPage)
