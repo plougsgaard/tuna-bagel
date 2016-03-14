@@ -2,6 +2,28 @@ import fetch from 'isomorphic-fetch'
 
 import { API } from '../config'
 
+export const getServiceUnavailable = () => ({
+  isBoom: true,
+  output: {
+    payload: {
+      error: `Service Unavailable`,
+      message: `Request timed out.`,
+      statusCode: 503
+    }
+  }
+})
+
+export const getBadRequest = () => ({
+  isBoom: true,
+  output: {
+    payload: {
+      error: `Bad Request`,
+      message: `The server failed to provide a good explanation - but the request was bad anyway.`,
+      statusCode: 400
+    }
+  }
+})
+
 const _parseUrl = (url) => {
   if (!url) {
     throw new Error(`Missing URL.`)
@@ -38,20 +60,27 @@ export const httpRequest = (url, options) => {
             reject({ _error: await response.json() })
           }
           catch (err) {
-            reject({ _error: response.statusText })
+            reject({ _error: getBadRequest() })
           }
         } else {
           try {
             resolve(await response.json())
           }
           catch (err) {
-            resolve(response.statusText)
+            resolve({
+              message: response.statusText
+            })
           }
         }
       },
       async (response) => {
-        // console.log('debug_4')
-        reject({ _error: await response.json() })
+        console.log('debug_4', response)
+        try {
+          reject({ _error: await response.json() })
+        }
+        catch (err) {
+          reject({ _error: getServiceUnavailable() })
+        }
       }
     )
   })

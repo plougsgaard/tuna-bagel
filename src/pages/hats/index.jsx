@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import { loadHats, addHat, foobar } from '../../redux/actions/hats'
+import { loadHats, addHat } from '../../redux/actions/hats'
 
 const connector = connect(({ hats }) => ({
   hats
@@ -16,7 +16,6 @@ class HatsPage extends Component {
   componentWillMount () {
     console.log('HatsPage:componentWillMount')
     this.props.dispatch(loadHats())
-    this.props.dispatch(foobar())
   }
   render () {
     const { hats } = this.props

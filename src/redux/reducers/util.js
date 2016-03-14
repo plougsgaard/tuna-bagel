@@ -19,9 +19,9 @@ export const addEntriesReducer = ([
   failureType
 ]) => (state = {
   entries: [],
-  addEntries: [],
-  addError: null,
-  addStats: {
+  entriesAdd: [],
+  errorAdd: null,
+  statsAdd: {
     timesRequested: 0,
     timesFailed: 0
   }
@@ -31,26 +31,26 @@ export const addEntriesReducer = ([
     case requestType:
       return {
         ...state,
-        addEntries: _.concat(state.addEntries, payload),
-        addStats: {
-          ...state.addStats,
-          timesRequested: (state.addStats.timesRequested + 1)
+        entriesAdd: _.concat(state.entriesAdd, payload),
+        statsAdd: {
+          ...state.statsAdd,
+          timesRequested: (state.statsAdd.timesRequested + 1)
         }
       }
     case successType:
       return {
         ...state,
         entries: _.concat(state.entries, body),
-        addEntries: _.without(state.addEntries, payload),
+        entriesAdd: _.without(state.entriesAdd, payload),
         lastUpdated: Date.now()
       }
     case failureType:
       return {
         ...state,
-        addError: error,
-        addStats: {
-          ...state.addStats,
-          timesFailed: (state.addStats.timesFailed + 1)
+        errorAdd: error,
+        statsAdd: {
+          ...state.statsAdd,
+          timesFailed: (state.statsAdd.timesFailed + 1)
         }
       }
     default:
@@ -67,8 +67,8 @@ export const loadEntriesReducer = ([
   loading: false,
   lastUpdated: null,
   entries: [],
-  error: null,
-  stats: {
+  errorLoad: null,
+  statsLoad: {
     timesRequested: 0,
     timesFailed: 0
   }
@@ -79,9 +79,9 @@ export const loadEntriesReducer = ([
       return {
         ...state,
         loading: true,
-        stats: {
-          ...state.stats,
-          timesRequested: (state.stats.timesRequested + 1)
+        statsLoad: {
+          ...state.statsLoad,
+          timesRequested: (state.statsLoad.timesRequested + 1)
         }
       }
     case successType:
@@ -97,10 +97,60 @@ export const loadEntriesReducer = ([
         ...state,
         loading: false,
         loaded: false,
-        error,
-        stats: {
-          ...state.stats,
-          timesFailed: (state.stats.timesFailed + 1)
+        errorLoad: error,
+        statsLoad: {
+          ...state.statsLoad,
+          timesFailed: (state.statsLoad.timesFailed + 1)
+        }
+      }
+    default:
+      return state
+  }
+}
+
+export const loadEntryReducer = ([
+  requestType,
+  successType,
+  failureType
+]) => (state = {
+  loading: false,
+  loaded: false,
+  lastUpdated: null,
+  entry: {},
+  errorLoad: null,
+  statsLoad: {
+    timesRequested: 0,
+    timesFailed: 0
+  }
+}, action = {}) => {
+  const { type, body, error } = action
+  switch (type) {
+    case requestType:
+      return {
+        ...state,
+        loading: true,
+        statsLoad: {
+          ...state.statsLoad,
+          timesRequested: (state.statsLoad.timesRequested + 1)
+        }
+      }
+    case successType:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        entry: body,
+        lastUpdated: Date.now()
+      }
+    case failureType:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        errorLoad: error,
+        statsLoad: {
+          ...state.statsLoad,
+          timesFailed: (state.statsLoad.timesFailed + 1)
         }
       }
     default:

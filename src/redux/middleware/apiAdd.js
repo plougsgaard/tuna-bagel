@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import { httpRequest } from '../../network'
 
+export const ADD_ONE = 'tuna-bagel/API/ADD_ONE'
+
 /**
  *
  *
@@ -14,14 +16,13 @@ export function apiAdd ({ dispatch, getState }) {
       api,
       types,
       path,
-      payload
+      payload,
+      tokenPath = 'session.token'
     } = action
 
-    if (api !== 'add') {
+    if (api !== ADD_ONE) {
       return next(action)
     }
-
-    //console.log('apiAdd', action)
 
     if (_.size(types) !== 3) {
       throw new Error(`Expected an array of three string types.`)
@@ -48,7 +49,10 @@ export function apiAdd ({ dispatch, getState }) {
 
     const options = {
       method: 'post',
-      body: payload
+      body: payload,
+      headers: {
+        token: _.get(getState(), tokenPath)
+      }
     }
 
     try {
@@ -60,10 +64,10 @@ export function apiAdd ({ dispatch, getState }) {
         payload
       })
     }
-    catch (error) {
+    catch ({ _error }) {
       dispatch({
         type: failureType,
-        error,
+        errorAdd: _error,
         payload
       })
     }

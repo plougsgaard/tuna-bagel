@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
-import { apiMiddleware } from '../middleware/apiMiddleware'
+import { apiLoad } from '../middleware/apiLoad'
 import { apiAdd } from '../middleware/apiAdd'
-import {rootReducer} from '../reducers'
+import { rootReducer } from '../reducers'
 import DevTools from '../DevTools'
 
 const logger = createLogger({
@@ -22,7 +22,7 @@ export default function configureStore(initialState) {
     compose(
       applyMiddleware(
         thunk,
-        apiMiddleware,
+        apiLoad,
         apiAdd,
         logger
       ),

@@ -1,5 +1,4 @@
-import { combineReducers } from 'redux'
-import { reduceReducers, mergeReducers, loadEntriesReducer, addEntriesReducer } from './util'
+import { mergeReducers, loadEntriesReducer, addEntriesReducer } from './util'
 import {
   LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE,
   ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE

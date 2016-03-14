@@ -1,7 +1,8 @@
 import _ from 'lodash'
 import { httpRequest } from '../../network'
 
-export const isPromise = (val) => val && typeof val.then === 'function'
+export const LOAD_ONE = 'tuna-bagel/API/LOAD_ONE'
+export const LOAD_MANY = 'tuna-bagel/API/LOAD_MANY'
 
 /**
  * Cache Strategy: Always call API (default)
@@ -24,30 +25,20 @@ export const callWhenExpired = (mountPoint, lastUpdatedKey = 'lastUpdated') => (
 
 /**
  *
- *
- *
- *
- *
  */
-export function apiMiddleware ({ dispatch, getState }) {
+export function apiLoad ({ dispatch, getState }) {
   return (next) => async (action) => {
     const {
       api,
       types,
       path,
-      options = {
-        method: 'get'
-      },
-      body,
       shouldCall = callAlways,
-      payload = {}
+      tokenPath = 'session.token'
     } = action
 
-    if (api !== 'load') {
+    if (api !== LOAD_ONE && api !== LOAD_MANY) {
       return next(action)
     }
-
-    //console.log('apiMiddleware', action)
 
     if (!types) {
       return next(action)
@@ -73,24 +64,28 @@ export function apiMiddleware ({ dispatch, getState }) {
     ] = types
 
     dispatch({
-      type: requestType,
-      ...payload
+      type: requestType
     })
+
+    const options = {
+      method: 'get',
+      headers: {
+        token: _.get(getState(), tokenPath)
+      }
+    }
 
     try {
       const body = await httpRequest(path, options)
       dispatch({
         type: successType,
         body,
-        lastUpdated: Date.now(),
-        ...payload
+        lastUpdated: Date.now()
       })
     }
-    catch (error) {
+    catch ({ _error }) {
       dispatch({
         type: failureType,
-        error,
-        ...payload
+        errorLoad: _error
       })
     }
   }
