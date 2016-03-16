@@ -58,6 +58,52 @@ export const addEntriesReducer = ([
   }
 }
 
+export const updateEntriesReducer = ([
+  requestType,
+  successType,
+  failureType
+]) => (state = {
+  entries: [],
+  entriesUpdate: [],
+  errorUpdate: null,
+  statsUpdate: {
+    timesRequested: 0,
+    timesFailed: 0
+  }
+}, action = {}) => {
+  const { type, body, payload, error } = action
+  const entry = payload && _.find(state.entries, { id: payload.id })
+  switch (type) {
+    case requestType:
+      return {
+        ...state,
+        entriesUpdate: _.concat(state.entriesUpdate, payload),
+        statsUpdate: {
+          ...state.statsUpdate,
+          timesRequested: (state.statsUpdate.timesRequested + 1)
+        }
+      }
+    case successType:
+      return {
+        ...state,
+        entries: _.concat(_.without(state.entries, entry), body),
+        entriesUpdate: _.without(state.entriesUpdate, payload),
+        lastUpdated: Date.now()
+      }
+    case failureType:
+      return {
+        ...state,
+        errorUpdate: error,
+        statsUpdate: {
+          ...state.statsUpdate,
+          timesFailed: (state.statsUpdate.timesFailed + 1)
+        }
+      }
+    default:
+      return state
+  }
+}
+
 export const loadEntriesReducer = ([
   requestType,
   successType,

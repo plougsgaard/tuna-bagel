@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import { apiLoad } from '../middleware/apiLoad'
 import { apiAdd } from '../middleware/apiAdd'
+import { apiUpdate } from '../middleware/apiUpdate'
 import { rootReducer } from '../reducers'
 import DevTools from '../DevTools'
 
@@ -24,6 +25,7 @@ export default function configureStore(initialState) {
         thunk,
         apiLoad,
         apiAdd,
+        apiUpdate,
         logger
       ),
       DevTools.instrument()
