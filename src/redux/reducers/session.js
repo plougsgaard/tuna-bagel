@@ -30,7 +30,7 @@ export default function sessionReducer (state = initialState, action = {}) {
       return { token }
     case CLEAR:
       LocalStorage.clear()
-      return initialState
+      return { token: null }
     default:
       return state
   }
