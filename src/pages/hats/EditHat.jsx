@@ -18,12 +18,16 @@ const BaseForm = ({
   submitting,
   error
 }) => (
-  <form onSubmit={handleSubmit} className='form-horizontal'>
-    <input className='input-group-field' type='text' placeholder='Stetson??' {...name} />
-    <div className=''>
-      <button type='submit' className='button' disabled={submitting}>Save</button>
-      <span onClick={handleCancel}>Cancel</span>
-      {error && OneLineError({ ...error })}
+  <form onSubmit={handleSubmit}>
+    <div className='form-group'>
+      <div className='input-group'>
+        <span className='input-group-addon'>Name</span>
+        <input className='form-control' type='text' autoFocus placeholder='Name' {...name} />
+        <span className='input-group-btn'>
+          <button type='submit' className='btn btn-success' disabled={submitting}>Save</button>
+        </span>
+        {error && OneLineError({ ...error })}
+      </div>
     </div>
   </form>
 )
