@@ -14,17 +14,6 @@ const store = configureStore({})
 
 ReactDOM.render((
   <Provider store={store}>
-    {
-      (NODE_ENV !== 'production')
-        ? (
-          <div>
-            <Router store={store}/>
-            {React.createElement(require('./redux/DevTools'))}
-          </div>
-        )
-        : (
-          <Router store={store}/>
-        )
-    }
+    <Router store={store}/>
   </Provider>
 ), document.getElementById('app'))

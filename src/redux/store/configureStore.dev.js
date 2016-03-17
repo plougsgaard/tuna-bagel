@@ -5,7 +5,6 @@ import { apiLoad } from '../middleware/apiLoad'
 import { apiAdd } from '../middleware/apiAdd'
 import { apiUpdate } from '../middleware/apiUpdate'
 import { rootReducer } from '../reducers'
-import DevTools from '../DevTools'
 
 const logger = createLogger({
   level: 'info',
@@ -28,7 +27,7 @@ export default function configureStore(initialState) {
         apiUpdate,
         logger
       ),
-      DevTools.instrument()
+      window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   )
 

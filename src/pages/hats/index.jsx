@@ -58,8 +58,10 @@ class HatsPage extends Component {
     const { dispatch, hats } = this.props
     const { body } = hats
     return (
-      <div style={{ maxWidth: '800px' }}>
-        <h1>Hats</h1>
+      <div className=''>
+        <div className='page-header'>
+          <h1>Hats</h1>
+        </div>
         <HatsList
           hats={hats}
           editMark={(id) => dispatch(editMarkHat(id))}
