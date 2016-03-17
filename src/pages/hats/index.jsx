@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import { loadHats, addHat, handleSaveHat, editMarkHat, editUnmarkHat } from '../../redux/actions/hats'
 
-import EditHatForm from '../../components/forms/EditHat'
+import EditHatForm from './EditHat'
 
 const connector = connect(({ hats }) => ({
   hats

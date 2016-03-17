@@ -3,8 +3,8 @@ import _ from 'lodash'
 import { Link } from 'react-router'
 import { reduxForm } from 'redux-form'
 
-import { validateRequiredFields } from './util'
-import { FormFieldError, OneLineError } from '../errors'
+import { validateRequiredFields } from '../../helpers/validators'
+import { FormFieldError, OneLineError } from '../../components/errors'
 
 const fields = ['email', 'password']
 const validate = validateRequiredFields()
@@ -31,7 +31,7 @@ const BaseForm = ({
             className='form-control'
             id='inputEmail'
             placeholder='somebody@example.com'
-            autoFocus 
+            autoFocus
             {...email} />
           <FormFieldError {...email} />
         </div>
