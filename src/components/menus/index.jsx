@@ -1,31 +1,37 @@
 import React from 'react'
+import { Link } from 'react-router'
 import { MenuLink } from '../links'
 
 const LeftMenu = ({}) => (
-  <ul className='menu'>
+  <ul className='nav navbar-nav'>
     <MenuLink to='/' onlyActiveOnIndex>Home</MenuLink>
     <MenuLink to='/login'>Login</MenuLink>
     <MenuLink to='/about'>About</MenuLink>
-    <MenuLink to='/profile'>Profile</MenuLink>
     <MenuLink to='/hats'>Hats</MenuLink>
   </ul>
 )
 
 const RightMenu = ({}) => (
-  <ul className='menu'>
-    <li><input type='search' placeholder='Search' /></li>
+  <ul className='nav navbar-nav navbar-right'>
+    <MenuLink to='/profile'>Profile</MenuLink>
   </ul>
 )
 
-export const TopBar = ({}) => (
-  <div className='top-bar' style={{
-    borderBottom: '1px solid #CCC'
-  }}>
-    <div className='top-bar-left'>
-      <LeftMenu />
-    </div>
-    <div className='top-bar-right'>
-      <RightMenu />
+export const TopBar = ({ collapsed, toggleCollapse }) => (
+  <div className='navbar navbar-default'>
+    <div className='container'>
+      <div className='navbar-header'>
+        <Link to='/' className='navbar-brand'>Tuna Bagel</Link>
+        <button onClick={toggleCollapse} className={`${collapsed ? 'navbar-toggle collapsed' : 'navbar-toggle'}`} type='button'>
+          <span className='icon-bar'></span>
+          <span className='icon-bar'></span>
+          <span className='icon-bar'></span>
+        </button>
+      </div>
+      <div className={`navbar-collapse ${collapsed ? 'collapse' : 'collapse in'}`}>
+        <LeftMenu />
+        <RightMenu />
+      </div>
     </div>
   </div>
 )

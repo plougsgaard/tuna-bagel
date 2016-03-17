@@ -5,11 +5,13 @@ import resetPassword from './resetPassword'
 import userProfile from './userProfile'
 import session from './session'
 import hats from './hats'
+import layout from './layout'
 
 export const rootReducer = combineReducers({
   form,
   resetPassword,
   userProfile,
   session,
-  hats
+  hats,
+  layout
 })
