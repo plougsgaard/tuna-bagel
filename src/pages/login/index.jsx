@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
-import connectToStore from '../../redux/connectToStore'
+import { connect } from 'react-redux'
 
 import { handleSubmitLogin } from '../../redux/reducers/session'
 
-import LoginForm from '../../components/forms/Login'
+import LoginForm from './LoginForm'
 
 class LoginPage extends Component {
   constructor (props) {
@@ -35,4 +35,4 @@ class LoginPage extends Component {
   }
 }
 
-export default connectToStore(LoginPage)
+export default connect()(LoginPage)
