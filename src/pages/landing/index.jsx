@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
-import connectToStore from '../../redux/connectToStore'
+import React from 'react'
+import { Link } from 'react-router'
 
-class LandingPage extends Component {
-  constructor (props) {
-    super(props)
-  }
-  render () {
-    return (
-      <div>
-        <h1>Welcome to the thing</h1>
-        <h3>Good things are bound to ensue</h3>
+const LandingPage = () => {
+  return (
+    <div>
+
+      <div className='jumbotron'>
+        <h1>Hello there fellow internet person</h1>
+        <p>I <i>was</i> gonna make a compelling sales pitch but then I lost interest and wandered off to do other things.</p>
+        <p><Link to='/signup' className='btn btn-primary btn-md'>Kindly procure me a user</Link></p>
+        <p><Link to='/login' className='btn btn-secondary btn-md'>I simply wish to sign in</Link></p>
       </div>
-    )
-  }
+
+    </div>
+  )
 }
 
-export default connectToStore(LandingPage)
+export default LandingPage
