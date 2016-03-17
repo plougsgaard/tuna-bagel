@@ -49,12 +49,12 @@ class PrivateContainerBase extends Component {
     super(props)
   }
   render = () => {
-    const { children, dispatch, layout } = this.props
+    const { children, layout, navbarToggleCollapse } = this.props
     return (
       <div>
         <TopBar
           collapsed={layout.navbarCollapsed}
-          toggleCollapse={() => dispatch(navbarToggleCollapse())} />
+          toggleCollapse={navbarToggleCollapse} />
         <div className='container'>
           {children}
         </div>
@@ -62,11 +62,9 @@ class PrivateContainerBase extends Component {
     )
   }
 }
-const privateConnector = connect(({ layout }) => ({
-  layout
-}))
-export const PrivateContainer = privateConnector(PrivateContainerBase)
-
+const mapState = ({ layout }) => ({ layout })
+const mapActions = { navbarToggleCollapse }
+export const PrivateContainer = connect(mapState, mapActions)(PrivateContainerBase)
 
 //
 // Public Container
@@ -79,13 +77,8 @@ export class PublicContainer extends Component {
   render = () => {
     const { children } = this.props
     return (
-      <div className='row'>
-        <div className='row'>
-          Just public stuff..
-        </div>
-        <div className='row' style={{ paddingTop: '1.5em' }}>
-          {children}
-        </div>
+      <div className='container'>
+        {children}
       </div>
     )
   }
