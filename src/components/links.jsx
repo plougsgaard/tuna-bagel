@@ -13,3 +13,22 @@ export const MenuLink = (props, context) => {
 MenuLink.contextTypes = {
   router: PropTypes.object
 }
+
+export const NoopLink = (props) => {
+  const onClick = (e) => {
+    e.preventDefault()
+    if (typeof props.onClick === 'function') {
+      props.onClick(e)
+    }
+  }
+  const newProps = {
+    ...props,
+    to: '',
+    onClick
+  }
+  return (
+    <Link {
+      ...newProps
+    } />
+  )
+}

@@ -3,38 +3,34 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
+import { NoopLink } from '../../components/links'
 import { loadHats, addHat, handleSaveHat, editMarkHat, editUnmarkHat } from '../../redux/actions/hats'
 
 import EditHatForm from './EditHat'
 
-const connector = connect(({ hats }) => ({
-  hats
-}))
-
 const Hat = ({ hat, isEditing = false, editMark, editUnmark }) => {
+  const toggle = isEditing ? () => editUnmark(hat.id) : () => editMark(hat.id)
   return (
-    <li>
-      {
-        isEditing
-          ? <div>
-              <EditHatForm
-                onSubmit={handleSaveHat(hat.id)}
-                formKey={String(hat.id)}
-                entry={hat}
-                handleCancel={() => editUnmark(hat.id)}/>
-            </div>
-          : <div>
-              <button className='secondary button' onClick={() => editMark(hat.id)}>Edit</button>
-              <span>{hat.name}</span>
-            </div>
-      }
-    </li>
+    <div>
+      <NoopLink
+        onClick={toggle}
+        className={isEditing ? 'list-group-item active' : 'list-group-item'} >
+        {hat.name}
+      </NoopLink>
+      {isEditing && <span className='list-group-item list-group-item-info'>
+        <EditHatForm
+          onSubmit={handleSaveHat(hat.id)}
+          formKey={String(hat.id)}
+          entry={hat}
+          handleCancel={() => editUnmark(hat.id)}/>
+      </span>}
+    </div>
   )
 }
 
 const HatsList = ({ hats, editMark, editUnmark }) => {
   return (
-    <ul>
+    <div className='list-group'>
       {_.map(hats.entries, (h) =>
         <Hat
           key={h.id}
@@ -42,7 +38,7 @@ const HatsList = ({ hats, editMark, editUnmark }) => {
           editMark={editMark}
           editUnmark={editUnmark}
           hat={h} />)}
-    </ul>
+    </div>
   )
 }
 
@@ -58,19 +54,29 @@ class HatsPage extends Component {
     const { dispatch, hats } = this.props
     const { body } = hats
     return (
-      <div className=''>
+      <div>
+        <h1>All the hats</h1>
+        <p>I could go on and on but I won't.</p>
+        <p><button
+          className='btn btn-success'
+          onClick={() => this.props.dispatch(addHat('New Hat'))} >
+          Throw a hat in the mix</button></p>
         <div className='page-header'>
-          <h1>Hats</h1>
+          <h3>And here's the complete list</h3>
         </div>
-        <HatsList
-          hats={hats}
-          editMark={(id) => dispatch(editMarkHat(id))}
-          editUnmark={(id) => dispatch(editUnmarkHat(id))}
-          />
-        <button className='success button' onClick={() => this.props.dispatch(addHat('Saq'))}>Add a Hat</button>
+        <div className='row'>
+          <div className='col-md-6'>
+            <HatsList
+              hats={hats}
+              editMark={(id) => dispatch(editMarkHat(id))}
+              editUnmark={(id) => dispatch(editUnmarkHat(id))}
+              />
+          </div>
+        </div>
       </div>
     )
   }
 }
 
-export default connector(HatsPage)
+const mapState = ({ hats }) => ({ hats })
+export default connect(mapState)(HatsPage)

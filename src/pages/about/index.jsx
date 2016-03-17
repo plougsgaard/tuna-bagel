@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { provideHooks } from 'redial'
-
-const connector = connect(({ userProfile }) => ({
-  userProfile
-}))
 
 const AboutPage = ({
   userProfile: {
@@ -12,10 +7,10 @@ const AboutPage = ({
   }
 }) => (
   <div>
-    <p>AboutPage</p>
-    <p>Loaded? {Boolean(loaded).toString()}</p>
-    <p>Because sometimes you need things to be about something.</p>
+    <h1>About this project</h1>
+    <p>Created by <a href='https://github.com/plougsgaard'>@plougsgaard</a>.</p>
   </div>
 )
 
-export default connector(AboutPage)
+const mapState = ({ userProfile }) => ({ userProfile })
+export default connect(mapState)(AboutPage)
