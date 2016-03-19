@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import connectToStore from '../../redux/connectToStore'
+import { Link } from 'react-router'
 
 class HomePage extends Component {
   constructor (props) {
@@ -9,7 +10,7 @@ class HomePage extends Component {
     return (
       <div>
         <ul className='breadcrumb'>
-          <li><a href='/'>Home</a></li>
+          <li><Link to='/'>Home</Link></li>
           <li className='active'>Welcome</li>
         </ul>
         <h1>Some kind of header</h1>

@@ -17,6 +17,7 @@ import AboutPage from './pages/about'
 import HomePage from './pages/home'
 import ProfilePage from './pages/profile'
 import HatsPage from './pages/hats'
+import FoodPage from './pages/foods'
 
 const RootRouter = ({ store }) => (
   <Router history={browserHistory}>
@@ -32,6 +33,7 @@ const RootRouter = ({ store }) => (
       <Route path='/about' component={AboutPage} />
       <Route path='/profile' component={ProfilePage} />
       <Route path='/hats' component={HatsPage} />
+      <Route path='/food' component={FoodPage} />
     </Route>
   </Router>
 )
