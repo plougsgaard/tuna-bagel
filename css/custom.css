@@ -12,3 +12,33 @@ input[data-toggle]:checked + label:active {
 .top-bar, .top-bar ul {
   background-color: transparent;
 }
+
+.l-padding-0 {
+  padding: 0;
+}
+
+.suggestion-container {
+  padding: 0;
+  position: absolute;
+  z-index:10;
+  background: #eee;
+  right: 15px;
+  left: 15px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.suggestion-item {
+  position: relative;
+  z-index:10;
+  cursor: pointer;
+  padding: 10px 0 10px 20px;
+}
+
+.suggestion-item:hover {
+  background-color: salmon;
+}
+
+.suggestion-item-focused {
+  background-color: salmon;
+}

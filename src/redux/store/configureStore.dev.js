@@ -24,8 +24,7 @@ export default function configureStore(initialState) {
         thunk,
         apiLoad,
         apiAdd,
-        apiUpdate,
-        logger
+        apiUpdate
       ),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
