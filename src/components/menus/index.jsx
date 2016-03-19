@@ -5,6 +5,7 @@ import { MenuLink } from '../links'
 const LeftMenu = ({}) => (
   <ul className='nav navbar-nav'>
     <MenuLink to='/' onlyActiveOnIndex>Home</MenuLink>
+    <MenuLink to='/food'>Food</MenuLink>
     <MenuLink to='/hats'>Hats</MenuLink>
     <MenuLink to='/about'>About</MenuLink>
   </ul>

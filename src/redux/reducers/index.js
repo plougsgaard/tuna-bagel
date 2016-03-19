@@ -5,6 +5,7 @@ import resetPassword from './resetPassword'
 import userProfile from './userProfile'
 import session from './session'
 import hats from './hats'
+import foods from './foods'
 import layout from './layout'
 
 export const rootReducer = combineReducers({
@@ -13,5 +14,6 @@ export const rootReducer = combineReducers({
   userProfile,
   session,
   hats,
+  foods,
   layout
 })
