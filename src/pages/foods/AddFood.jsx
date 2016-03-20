@@ -8,6 +8,7 @@ import Autosuggest from 'react-autosuggest'
 import { validateRequiredFields } from '../../helpers/validators'
 import { FormFieldError, OneLineError } from '../../components/errors'
 
+const formName = 'addFood'
 const fields = [
   'name',
   'brand',
@@ -39,7 +40,7 @@ const TextGroup = ({ label, entity }) => {
   )
 }
 
-const TypeaheadGroup = ({ label, entity }) => {
+const TypeaheadGroup = ({ label, entity, dispatch }) => {
   const suggestions = [
     {
       text: 'Apple'
@@ -64,18 +65,28 @@ const TypeaheadGroup = ({ label, entity }) => {
         {label}
       </label>
       <Autosuggest
+        theme={{
+          suggestionsContainer: 'suggestion-container',
+          suggestion: 'suggestion-item',
+          suggestionFocused: 'suggestion-item-focused'
+        }}
         suggestions={suggestions}
         getSuggestionValue={(s) => s.text}
-        renderSuggestion={(s) => <span style={{backgroundColor: 'red'}}>{s.text}</span>}
+        renderSuggestion={(s) => s.text}
         shouldRenderSuggestions={() => true}
         inputProps={{
           ...entity,
           id: inputId,
           className: 'form-control',
           onChange: (event, { newValue, method }) => {
-            console.log(event, newValue, method, entity)
-            event.target.value = newValue
-            entity.onChange(event)
+            console.log('<<onChange>>', event, newValue, method, entity)
+            dispatch({
+              'type': 'redux-form/CHANGE',
+              'field': entity.name,
+              'value': newValue,
+              'touch': false,
+              'form': formName
+            })
           },
           value: entity.value || ''
         }} />
@@ -118,7 +129,8 @@ const BaseForm = ({
   },
   handleSubmit,
   submitting,
-  error
+  error,
+  dispatch
 }) => (
   <form className='form' onSubmit={handleSubmit}>
     <fieldset className=''>
@@ -127,7 +139,7 @@ const BaseForm = ({
           <TextGroup label='Description' entity={name}/>
         </div>
         <div className='col-md-6'>
-          <TypeaheadGroup label='Brand' entity={brand}/>
+          <TypeaheadGroup label='Brand' entity={brand} dispatch={dispatch}/>
         </div>
       </div>
       <div className='row'>
@@ -177,7 +189,7 @@ const BaseForm = ({
 )
 
 export default reduxForm({
-  form: 'addFood',
+  form: formName,
   fields,
   validate
 })(BaseForm)
