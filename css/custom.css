@@ -42,3 +42,9 @@ input[data-toggle]:checked + label:active {
 .suggestion-item-focused {
   background-color: salmon;
 }
+
+.unit-badge {
+  position: absolute;
+  right: 0;
+  background-color: #666;
+}
