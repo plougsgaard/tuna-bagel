@@ -4,3 +4,5 @@
 dist/*
 build/*
 node_modules
+
+css/icons-reference.html
