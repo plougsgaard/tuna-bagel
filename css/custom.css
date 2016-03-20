@@ -22,8 +22,8 @@ input[data-toggle]:checked + label:active {
   position: absolute;
   z-index:10;
   background: #eee;
-  right: 15px;
-  left: 15px;
+  right: 0;
+  left: 0;
   max-height: 200px;
   overflow-y: scroll;
 }
