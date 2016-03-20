@@ -21,12 +21,28 @@ const fields = [
   'fibres',
   'salt'
 ]
-const validate = validateRequiredFields()
+const validate = validateRequiredFields([
+  'carbohydrates',
+  'sugars',
+  'proteins',
+  'fat',
+  'saturated',
+  'fibres',
+  'salt'
+])
 
 const TextGroup = ({ label, entity }) => {
   const inputId = `input${label}`
+  const { touched, error, visited, active, value } = entity
+  const hasError = touched && error
+  const hasSuccess = !hasError && visited && !active && value
+  const className = hasError
+    ? 'form-group has-feedback has-warning'
+    : hasSuccess
+      ? 'form-group has-feedback has-success'
+      : 'form-group has-feedback'
   return (
-    <div className='form-group'>
+    <div className={className}>
       <label className='control-label' forName={inputId}>
         {label}
       </label>
@@ -36,6 +52,8 @@ const TextGroup = ({ label, entity }) => {
         id={inputId}
         placeholder=''
         {...entity} />
+      {hasError && <span className="form-control-feedback icon-warning"></span>}
+      {hasSuccess && <span className="form-control-feedback icon-check"></span>}
     </div>
   )
 }
@@ -58,9 +76,19 @@ const TypeaheadGroup = ({ label, entity, dispatch }) => {
       text: 'Lemon'
     }
   ];
+  const getSuggestions = () =>
+    _.filter(suggestions, (s) => _.includes(_.lowerCase(s.text), _.lowerCase(entity.value)))
   const inputId = `input${label}`
+  const { touched, error, visited, active, value } = entity
+  const hasError = touched && error
+  const hasSuccess = !hasError && visited && !active && value
+  const className = hasError
+    ? 'form-group has-feedback has-warning'
+    : hasSuccess
+      ? 'form-group has-feedback has-success'
+      : 'form-group has-feedback'
   return (
-    <div className='form-group'>
+    <div className={className}>
       <label className='control-label' forName={inputId}>
         {label}
       </label>
@@ -70,10 +98,9 @@ const TypeaheadGroup = ({ label, entity, dispatch }) => {
           suggestion: 'suggestion-item',
           suggestionFocused: 'suggestion-item-focused'
         }}
-        suggestions={suggestions}
+        suggestions={getSuggestions()}
         getSuggestionValue={(s) => s.text}
         renderSuggestion={(s) => s.text}
-        shouldRenderSuggestions={() => true}
         inputProps={{
           ...entity,
           id: inputId,
@@ -90,26 +117,35 @@ const TypeaheadGroup = ({ label, entity, dispatch }) => {
           },
           value: entity.value || ''
         }} />
+      {hasError && <span className="form-control-feedback icon-warning"></span>}
+      {hasSuccess && <span className="form-control-feedback icon-check"></span>}
     </div>
   )
 }
 
 const NumberGroup = ({ entity, label, unit }) => {
   const inputId = `input${label}`
+  const { touched, error, visited, active, value } = entity
+  const hasError = touched && error
+  const hasSuccess = !hasError && visited && !active && value
+  const className = hasError
+    ? 'form-group has-feedback has-warning'
+    : hasSuccess
+      ? 'form-group has-feedback has-success'
+      : 'form-group has-feedback'
   return (
-    <div className='form-group'>
+    <div className={className}>
       <label className='control-label' forName={inputId}>
         {label}
       </label>
-      <div className='input-group'>
+      <span className='badge unit-badge'>{unit || 'g'}</span>
       <input
         type='number'
         className='form-control'
         id={inputId}
         {...entity} />
-        <FormFieldError {...entity} />
-      <span className='input-group-addon'>{unit || 'g'}</span>
-      </div>
+      {hasError && <span className="form-control-feedback icon-warning"></span>}
+      {hasSuccess && <span className="form-control-feedback icon-check"></span>}
     </div>
   )
 }
