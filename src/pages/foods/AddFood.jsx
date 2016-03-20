@@ -39,23 +39,47 @@ const TextGroup = ({ label, entity }) => {
   )
 }
 
-const TypeaheadGroup = ({ entity }) => {
+const TypeaheadGroup = ({ label, entity }) => {
   const suggestions = [
-    { name: 'Albania', value: 'value--Albania' },
-    { name: 'Algeria', value: 'value--Algeria' },
-    { name: 'Andorra', value: 'value--Andorra' },
-    { name: 'Angola', value: 'value--Angola' }
-  ]
+    {
+      text: 'Apple'
+    },
+    {
+      text: 'Banana'
+    },
+    {
+      text: 'Cherry'
+    },
+    {
+      text: 'Grapefruit'
+    },
+    {
+      text: 'Lemon'
+    }
+  ];
+  const inputId = `input${label}`
   return (
-    <Autosuggest
-      suggestions={suggestions}
-      getSuggestionValue={(s) => s.name}
-      renderSuggestion={(s) => <span style={{backgroundColor: 'red'}}>{s.name}</span>}
-      inputProps={{
-        ...entity,
-        className: 'form-control',
-        value: entity.value || ''
-      }} />
+    <div className='form-group'>
+      <label className='control-label' forName={inputId}>
+        {label}
+      </label>
+      <Autosuggest
+        suggestions={suggestions}
+        getSuggestionValue={(s) => s.text}
+        renderSuggestion={(s) => <span style={{backgroundColor: 'red'}}>{s.text}</span>}
+        shouldRenderSuggestions={() => true}
+        inputProps={{
+          ...entity,
+          id: inputId,
+          className: 'form-control',
+          onChange: (event, { newValue, method }) => {
+            console.log(event, newValue, method, entity)
+            event.target.value = newValue
+            entity.onChange(event)
+          },
+          value: entity.value || ''
+        }} />
+    </div>
   )
 }
 
