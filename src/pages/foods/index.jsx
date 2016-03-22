@@ -6,7 +6,8 @@ import _ from 'lodash'
 import AddFoodForm from './AddFood'
 
 import { NoopLink } from '../../components/links'
-import { loadFoods, editMarkFood, editUnmarkFood } from '../../redux/actions/foods'
+import { loadFoods, editMarkFood, editUnmarkFood, handleAddFood } from '../../redux/actions/foods'
+import { loadBrands } from '../../redux/actions/brands'
 
 const Food = ({ food, isEditing = false, editMark, editUnmark }) => {
   const toggle = isEditing ? () => editUnmark(food.id) : () => editMark(food.id)
@@ -45,9 +46,10 @@ class FoodPage extends Component {
   componentWillMount () {
     console.log('FoodPage:componentWillMount')
     this.props.dispatch(loadFoods())
+    this.props.dispatch(loadBrands())
   }
   render () {
-    const { dispatch, foods } = this.props
+    const { dispatch, foods, brands } = this.props
     return (
       <div>
         <ul className='breadcrumb'>
@@ -57,7 +59,9 @@ class FoodPage extends Component {
         <h1>Create some food</h1>
         <div className='row'>
           <div className='col-md-8'>
-        <AddFoodForm />
+        <AddFoodForm 
+          onSubmit={handleAddFood}
+          brands={brands} />
         </div>
         </div>
         <h1>Here's the food we have</h1>
@@ -76,5 +80,5 @@ class FoodPage extends Component {
   }
 }
 
-const mapState = ({ foods }) => ({ foods })
+const mapState = ({ foods, brands }) => ({ foods, brands })
 export default connect(mapState)(FoodPage)

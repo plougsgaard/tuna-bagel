@@ -6,6 +6,7 @@ import userProfile from './userProfile'
 import session from './session'
 import hats from './hats'
 import foods from './foods'
+import brands from './brands'
 import layout from './layout'
 
 export const rootReducer = combineReducers({
@@ -15,5 +16,6 @@ export const rootReducer = combineReducers({
   session,
   hats,
   foods,
+  brands,
   layout
 })

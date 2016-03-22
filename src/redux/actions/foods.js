@@ -35,12 +35,7 @@ export const loadFoods = () => ({
   path: '/foods'
 })
 
-export const addFood = (name) => {
-  const id = uuid.v4()
-  const payload = {
-    name,
-    id
-  }
+export const addFood = (payload) => {
   return {
     api: ADD_ONE,
     types: [ ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE ],
@@ -48,6 +43,8 @@ export const addFood = (name) => {
     payload
   }
 }
+
+export const handleAddFood = async (values, dispatch) => dispatch(addFood(values))
 
 export const handleSaveFood = (id) =>
   async (values, dispatch) => dispatch({

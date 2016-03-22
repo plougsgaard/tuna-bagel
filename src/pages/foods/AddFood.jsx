@@ -58,26 +58,9 @@ const TextGroup = ({ label, entity }) => {
   )
 }
 
-const TypeaheadGroup = ({ label, entity, dispatch }) => {
-  const suggestions = [
-    {
-      text: 'Apple'
-    },
-    {
-      text: 'Banana'
-    },
-    {
-      text: 'Cherry'
-    },
-    {
-      text: 'Grapefruit'
-    },
-    {
-      text: 'Lemon'
-    }
-  ];
+const TypeaheadGroup = ({ label, entity, dispatch, suggestions: { entries } }) => {
   const getSuggestions = () =>
-    _.filter(suggestions, (s) => _.includes(_.lowerCase(s.text), _.lowerCase(entity.value)))
+    _.filter(entries, (s) => _.includes(_.lowerCase(s.name), _.lowerCase(entity.value)))
   const inputId = `input${label}`
   const { touched, error, visited, active, value } = entity
   const hasError = touched && error
@@ -99,8 +82,8 @@ const TypeaheadGroup = ({ label, entity, dispatch }) => {
           suggestionFocused: 'suggestion-item-focused'
         }}
         suggestions={getSuggestions()}
-        getSuggestionValue={(s) => s.text}
-        renderSuggestion={(s) => s.text}
+        getSuggestionValue={(s) => s.name}
+        renderSuggestion={(s) => s.name}
         inputProps={{
           ...entity,
           id: inputId,
@@ -166,16 +149,18 @@ const BaseForm = ({
   handleSubmit,
   submitting,
   error,
-  dispatch
+  dispatch,
+  brands 
 }) => (
   <form className='form' onSubmit={handleSubmit}>
+  {console.log(brands)}
     <fieldset className=''>
       <div className='row'>
         <div className='col-md-6'>
           <TextGroup label='Description' entity={name}/>
         </div>
         <div className='col-md-6'>
-          <TypeaheadGroup label='Brand' entity={brand} dispatch={dispatch}/>
+          <TypeaheadGroup label='Brand' entity={brand} suggestions={brands} dispatch={dispatch}/>
         </div>
       </div>
       <div className='row'>
@@ -224,8 +209,9 @@ const BaseForm = ({
   </form>
 )
 
-export default reduxForm({
+const formProps = {
   form: formName,
   fields,
   validate
-})(BaseForm)
+}
+export default reduxForm(formProps)(BaseForm)
