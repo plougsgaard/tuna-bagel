@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form'
 import Autosuggest from 'react-autosuggest'
 
 import { validateRequiredFields } from '../../helpers/validators'
-import { FormFieldError, OneLineError } from '../../components/errors'
+import { FormFieldError, OneLineError, AlertError } from '../../components/errors'
 
 const formName = 'addFood'
 const fields = [
@@ -153,7 +153,7 @@ const BaseForm = ({
   brands 
 }) => (
   <form className='form' onSubmit={handleSubmit}>
-  {console.log(brands)}
+    {error && <AlertError { ...error } />}
     <fieldset className=''>
       <div className='row'>
         <div className='col-md-6'>
@@ -196,7 +196,9 @@ const BaseForm = ({
         </div>
       </div>
       <div className='row'>
-        <div className='col-md-10'></div>
+        <div className='col-md-10'>
+          
+        </div>
         <div className='col-md-2'>
           <div className='form-group'>
             <div className='col-lg-2 col-lg-offset-2'>

@@ -33,6 +33,7 @@ export function apiLoad ({ dispatch, getState }) {
       types,
       path,
       shouldCall = callAlways,
+      forwardErrors = false,
       tokenPath = 'session.token'
     } = action
 
@@ -87,6 +88,9 @@ export function apiLoad ({ dispatch, getState }) {
         type: failureType,
         errorLoad: _error
       })
+      if (forwardErrors) {
+        throw { _error }
+      }
     }
   }
 }
