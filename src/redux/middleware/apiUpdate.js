@@ -10,6 +10,7 @@ export function apiUpdate ({ dispatch, getState }) {
       types,
       path,
       payload,
+      forwardErrors = false,
       tokenPath = 'session.token'
     } = action
 
@@ -63,6 +64,9 @@ export function apiUpdate ({ dispatch, getState }) {
         errorUpdate: _error,
         payload
       })
+      if (forwardErrors) {
+        throw { _error }
+      }
     }
   }
 }

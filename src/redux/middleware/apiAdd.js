@@ -17,6 +17,7 @@ export function apiAdd ({ dispatch, getState }) {
       types,
       path,
       payload,
+      forwardErrors = false,
       tokenPath = 'session.token'
     } = action
 
@@ -70,6 +71,9 @@ export function apiAdd ({ dispatch, getState }) {
         errorAdd: _error,
         payload
       })
+      if (forwardErrors) {
+        throw { _error }
+      }
     }
   }
 }

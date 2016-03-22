@@ -38,3 +38,16 @@ export const FormFieldError = ({ touched, error }) => (
     color: '#EC5840'
   }}>{touched && error ? error : ''}</span>
 )
+
+export const AlertError = ({ output, isBoom }) => {
+  const { 
+    payload: {
+      error, message, statusCode 
+    }
+  } = isBoom
+    ? output
+    : getBadProgrammerOutput()
+  return (
+    <div className='alert alert-dismissible alert-danger'>{message}</div>
+  )
+}

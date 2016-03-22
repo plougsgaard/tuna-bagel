@@ -38,6 +38,7 @@ export const loadFoods = () => ({
 export const addFood = (payload) => {
   return {
     api: ADD_ONE,
+    forwardErrors: true,
     types: [ ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE ],
     path: '/foods',
     payload
