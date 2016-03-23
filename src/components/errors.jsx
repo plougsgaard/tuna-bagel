@@ -48,6 +48,6 @@ export const AlertError = ({ output, isBoom }) => {
     ? output
     : getBadProgrammerOutput()
   return (
-    <div className='alert alert-dismissible alert-danger'>{message}</div>
+    <div className='panel alert alert-danger'><strong>{error}</strong> {message}</div>
   )
 }
