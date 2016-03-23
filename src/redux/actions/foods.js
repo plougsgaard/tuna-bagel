@@ -4,6 +4,10 @@ import { ADD_ONE } from '../middleware/apiAdd'
 import { LOAD_MANY } from '../middleware/apiLoad'
 import { UPDATE_ONE } from '../middleware/apiUpdate'
 
+//
+// api
+//
+
 export const LOAD_REQUEST = 'tuna-bagel/food/LOAD_REQUEST'
 export const LOAD_SUCCESS = 'tuna-bagel/food/LOAD_SUCCESS'
 export const LOAD_FAILURE = 'tuna-bagel/food/LOAD_FAILURE'
@@ -16,8 +20,28 @@ export const UPDATE_REQUEST = 'tuna-bagel/food/UPDATE_REQUEST'
 export const UPDATE_SUCCESS = 'tuna-bagel/food/UPDATE_SUCCESS'
 export const UPDATE_FAILURE = 'tuna-bagel/food/UPDATE_FAILURE'
 
+//
+// transient state
+//
+
+export const SHOW_ADD_FORM = 'tuna-bagel/food/SHOW_ADD_FORM'
+export const HIDE_ADD_FORM = 'tuna-bagel/food/HIDE_ADD_FORM'
 export const EDIT_MARK = 'tuna-bagel/food/EDIT_MARK'
 export const EDIT_UNMARK = 'tuna-bagel/food/EDIT_UNMARK'
+
+export const RESET_TRANSIENT_STATE = 'tuna-bagel/food/RESET_TRANSIENT_STATE'
+
+//
+// transient action creators
+//
+
+export const showAddForm = () => ({
+  type: SHOW_ADD_FORM
+})
+
+export const hideAddForm = () => ({
+  type: HIDE_ADD_FORM
+})
 
 export const editMarkFood = (id) => ({
   type: EDIT_MARK,
@@ -28,6 +52,14 @@ export const editUnmarkFood = (id) => ({
   type: EDIT_UNMARK,
   id
 })
+
+export const resetTransientState = () => ({
+  type: RESET_TRANSIENT_STATE
+})
+
+//
+// api action creators
+//
 
 export const loadFoods = () => ({
   api: LOAD_MANY,
@@ -44,6 +76,10 @@ export const addFood = (payload) => {
     payload
   }
 }
+
+//
+// form handlers
+//
 
 export const handleAddFood = async (values, dispatch) => dispatch(addFood(values))
 
