@@ -6,7 +6,15 @@ import _ from 'lodash'
 import AddFoodForm from './AddFood'
 
 import { NoopLink } from '../../components/links'
-import { loadFoods, editMarkFood, editUnmarkFood, handleAddFood } from '../../redux/actions/foods'
+import { 
+  loadFoods,
+  showAddForm,
+  hideAddForm,
+  editMarkFood,
+  editUnmarkFood,
+  handleAddFood,
+  resetTransientState
+} from '../../redux/actions/foods'
 import { loadBrands } from '../../redux/actions/brands'
 
 const Food = ({ food, isEditing = false, editMark, editUnmark }) => {
@@ -48,22 +56,32 @@ class FoodPage extends Component {
     this.props.dispatch(loadFoods())
     this.props.dispatch(loadBrands())
   }
+  componentWillUnmount () {
+    console.log('FoodPage:componentWillUnmount')
+    this.props.dispatch(resetTransientState())
+  }
   render () {
     const { dispatch, foods, brands } = this.props
+    const showHideFormLink = foods.showAddForm
+      ? <NoopLink onClick={(e) => dispatch(hideAddForm())}>close the form cause you didn't really wanna add stuff anyway</NoopLink>
+      : <NoopLink onClick={(e) => dispatch(showAddForm())}>add food specifications</NoopLink> 
     return (
       <div>
         <ul className='breadcrumb'>
           <li><Link to='/'>Home</Link></li>
           <li className='active'>Food</li>
         </ul>
-        <h1>Create some food</h1>
-        <div className='row'>
-          <div className='col-md-8'>
-        <AddFoodForm 
-          onSubmit={handleAddFood}
-          brands={brands} />
-        </div>
-        </div>
+        <h1>My food is all about your food</h1>
+        <p>You may {showHideFormLink} here or just enjoy browsing your portfolio.</p>
+        {foods.showAddForm && (
+          <div className='row'>
+            <div className='col-md-12'>
+            <AddFoodForm 
+              onSubmit={handleAddFood}
+              brands={brands} />
+            </div>
+          </div>
+        )}
         <h1>Here's the food we have</h1>
         <p>I could go for some enchiladas.</p>
         <div className='row'>
