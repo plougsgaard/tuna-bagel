@@ -152,63 +152,65 @@ const BaseForm = ({
   dispatch,
   brands 
 }) => (
-  <form className='form' onSubmit={handleSubmit}>
-    {error && <AlertError { ...error } />}
-    <fieldset className=''>
-      <div className='row'>
-        <div className='col-md-6'>
-          <TextGroup label='Description' entity={name}/>
+  <div className='panel panel-default'>
+    <form className='form panel-body' onSubmit={handleSubmit}>
+      {error && <AlertError { ...error } />}
+      <fieldset className=''>
+        <div className='row'>
+          <div className='col-xs-6'>
+            <TextGroup label='Description' entity={name}/>
+          </div>
+          <div className='col-xs-6'>
+            <TypeaheadGroup label='Brand' entity={brand} suggestions={brands} dispatch={dispatch}/>
+          </div>
         </div>
-        <div className='col-md-6'>
-          <TypeaheadGroup label='Brand' entity={brand} suggestions={brands} dispatch={dispatch}/>
+        <div className='row'>
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Calories' entity={calories} unit='kcal' />
+          </div>
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Carbohydrates' entity={carbohydrates} />
+          </div>
+        {/*</div>
+        <div className='row'>*/}
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Sugars' entity={sugars} />
+          </div>
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Proteins' entity={proteins} />
+          </div>
         </div>
-      </div>
-      <div className='row'>
-        <div className='col-sm-3'>
-          <NumberGroup label='Calories' entity={calories} unit='kcal' />
+        <div className='row'>
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Fat' entity={fat} />
+          </div>
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Saturated' entity={saturated} />
+          </div>
+        {/*</div>
+        <div className='row'>*/}
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Fibres' entity={fibres} />
+          </div>
+          <div className='col-sm-3 col-xs-6'>
+            <NumberGroup label='Salt' entity={salt} />
+          </div>
         </div>
-        <div className='col-sm-3'>
-          <NumberGroup label='Carbohydrates' entity={carbohydrates} />
-        </div>
-      {/*</div>
-      <div className='row'>*/}
-        <div className='col-sm-3'>
-          <NumberGroup label='Sugars' entity={sugars} />
-        </div>
-        <div className='col-sm-3'>
-          <NumberGroup label='Proteins' entity={proteins} />
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-sm-3'>
-          <NumberGroup label='Fat' entity={fat} />
-        </div>
-        <div className='col-sm-3'>
-          <NumberGroup label='Saturated' entity={saturated} />
-        </div>
-      {/*</div>
-      <div className='row'>*/}
-        <div className='col-sm-3'>
-          <NumberGroup label='Fibres' entity={fibres} />
-        </div>
-        <div className='col-sm-3'>
-          <NumberGroup label='Salt' entity={salt} />
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-md-10'>
-          
-        </div>
-        <div className='col-md-2'>
-          <div className='form-group'>
-            <div className='col-lg-2 col-lg-offset-2'>
-              <button type='submit' className='btn btn-success' disabled={submitting}>Create</button>
+        <div className='row'>
+          <div className='col-md-10'>
+            
+          </div>
+          <div className='col-md-2'>
+            <div className='form-group'>
+              <div className='col-lg-2 col-lg-offset-2'>
+                <button type='submit' className='btn btn-success' disabled={submitting}>Create</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </fieldset>
-  </form>
+      </fieldset>
+    </form>
+  </div>
 )
 
 const formProps = {
