@@ -26,8 +26,6 @@ export const UPDATE_FAILURE = 'tuna-bagel/food/UPDATE_FAILURE'
 
 export const SHOW_ADD_FORM = 'tuna-bagel/food/SHOW_ADD_FORM'
 export const HIDE_ADD_FORM = 'tuna-bagel/food/HIDE_ADD_FORM'
-export const EDIT_MARK = 'tuna-bagel/food/EDIT_MARK'
-export const EDIT_UNMARK = 'tuna-bagel/food/EDIT_UNMARK'
 
 export const RESET_TRANSIENT_STATE = 'tuna-bagel/food/RESET_TRANSIENT_STATE'
 
@@ -41,16 +39,6 @@ export const showAddForm = () => ({
 
 export const hideAddForm = () => ({
   type: HIDE_ADD_FORM
-})
-
-export const editMarkFood = (id) => ({
-  type: EDIT_MARK,
-  id
-})
-
-export const editUnmarkFood = (id) => ({
-  type: EDIT_UNMARK,
-  id
 })
 
 export const resetTransientState = () => ({

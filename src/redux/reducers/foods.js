@@ -5,13 +5,12 @@ import {
   ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE,
   UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE,
 
-  EDIT_MARK, EDIT_UNMARK, SHOW_ADD_FORM, HIDE_ADD_FORM,
+  SHOW_ADD_FORM, HIDE_ADD_FORM,
   RESET_TRANSIENT_STATE
 } from '../actions/foods'
 
 const transientState = {
-  showAddForm: false,
-  editing: []
+  addFormVisible: false
 }
 
 const foodReducer = (state = transientState, action = {}) => {
@@ -20,24 +19,12 @@ const foodReducer = (state = transientState, action = {}) => {
     case SHOW_ADD_FORM:
       return {
         ...state,
-        showAddForm: true
+        addFormVisible: true
       }
     case HIDE_ADD_FORM:
       return {
         ...state,
-        showAddForm: false
-      }
-    case EDIT_MARK:
-      const currentEntry = _.find(state.entries, { id })
-      return {
-        ...state,
-        editing: _.unionBy(state.editing, [currentEntry], 'id')
-      }
-    case EDIT_UNMARK:
-      const editingEntry = _.find(state.editing, { id })
-      return {
-        ...state,
-        editing: _.without(state.editing, editingEntry)
+        addFormVisible: false
       }
     case RESET_TRANSIENT_STATE:
       return {
