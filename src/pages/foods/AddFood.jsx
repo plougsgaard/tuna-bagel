@@ -3,10 +3,9 @@ import _ from 'lodash'
 import { Link } from 'react-router'
 import { reduxForm } from 'redux-form'
 
-import Autosuggest from 'react-autosuggest'
-
 import { validateRequiredFields } from '../../helpers/validators'
 import { FormFieldError, OneLineError, AlertError } from '../../components/errors'
+import { TextGroup, TypeaheadGroup, NumberGroup } from '../../components/forms'
 
 const formName = 'addFood'
 const fields = [
@@ -30,108 +29,6 @@ const validate = validateRequiredFields([
   'fibres',
   'salt'
 ])
-
-const TextGroup = ({ label, entity }) => {
-  const inputId = `input${label}`
-  const { touched, error, visited, active, value } = entity
-  const hasError = touched && error
-  const hasSuccess = !hasError && visited && !active && value
-  const className = hasError
-    ? 'form-group has-feedback has-warning'
-    : hasSuccess
-      ? 'form-group has-feedback has-success'
-      : 'form-group has-feedback'
-  return (
-    <div className={className}>
-      <label className='control-label' forName={inputId}>
-        {label}
-      </label>
-      <input
-        type='text'
-        className='form-control'
-        id={inputId}
-        placeholder=''
-        {...entity} />
-      {hasError && <span className="form-control-feedback icon-warning"></span>}
-      {hasSuccess && <span className="form-control-feedback icon-check"></span>}
-    </div>
-  )
-}
-
-const TypeaheadGroup = ({ label, entity, dispatch, suggestions: { entries } }) => {
-  const getSuggestions = () =>
-    _.filter(entries, (s) => _.includes(_.lowerCase(s.name), _.lowerCase(entity.value)))
-  const inputId = `input${label}`
-  const { touched, error, visited, active, value } = entity
-  const hasError = touched && error
-  const hasSuccess = !hasError && visited && !active && value
-  const className = hasError
-    ? 'form-group has-feedback has-warning'
-    : hasSuccess
-      ? 'form-group has-feedback has-success'
-      : 'form-group has-feedback'
-  return (
-    <div className={className}>
-      <label className='control-label' forName={inputId}>
-        {label}
-      </label>
-      <Autosuggest
-        theme={{
-          suggestionsContainer: 'suggestion-container',
-          suggestion: 'suggestion-item',
-          suggestionFocused: 'suggestion-item-focused'
-        }}
-        suggestions={getSuggestions()}
-        getSuggestionValue={(s) => s.name}
-        renderSuggestion={(s) => s.name}
-        inputProps={{
-          ...entity,
-          id: inputId,
-          className: 'form-control',
-          onChange: (event, { newValue, method }) => {
-            console.log('<<onChange>>', event, newValue, method, entity)
-            dispatch({
-              'type': 'redux-form/CHANGE',
-              'field': entity.name,
-              'value': newValue,
-              'touch': false,
-              'form': formName
-            })
-          },
-          value: entity.value || ''
-        }} />
-      {hasError && <span className="form-control-feedback icon-warning"></span>}
-      {hasSuccess && <span className="form-control-feedback icon-check"></span>}
-    </div>
-  )
-}
-
-const NumberGroup = ({ entity, label, unit }) => {
-  const inputId = `input${label}`
-  const { touched, error, visited, active, value } = entity
-  const hasError = touched && error
-  const hasSuccess = !hasError && visited && !active && value
-  const className = hasError
-    ? 'form-group has-feedback has-warning'
-    : hasSuccess
-      ? 'form-group has-feedback has-success'
-      : 'form-group has-feedback'
-  return (
-    <div className={className}>
-      <label className='control-label' forName={inputId}>
-        {label}
-      </label>
-      <span className='badge unit-badge'>{unit || 'g'}</span>
-      <input
-        type='number'
-        className='form-control'
-        id={inputId}
-        {...entity} />
-      {hasError && <span className="form-control-feedback icon-warning"></span>}
-      {hasSuccess && <span className="form-control-feedback icon-check"></span>}
-    </div>
-  )
-}
 
 const BaseForm = ({
   fields: {
@@ -161,7 +58,19 @@ const BaseForm = ({
             <TextGroup label='Description' entity={name}/>
           </div>
           <div className='col-xs-6'>
-            <TypeaheadGroup label='Brand' entity={brand} suggestions={brands} dispatch={dispatch}/>
+            <TypeaheadGroup 
+              label='Brand' 
+              entity={brand} 
+              suggestions={brands}
+              dispatchChange={(newValue) => {
+                dispatch({
+                  'type': 'redux-form/CHANGE',
+                  'field': brand.name,
+                  'value': newValue,
+                  'touch': false,
+                  'form': formName
+                })
+              }}/>
           </div>
         </div>
         <div className='row'>
