@@ -1,6 +1,7 @@
-import { mergeReducers, loadEntryReducer } from './util'
+import { mergeReducers, loadEntryReducer, updateEntriesReducer } from './util'
 import {
-  LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE
+  LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE,
+  UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE
 } from '../actions/userProfile'
 
 const userProfileReducer = (state = {}, action = {}) => {
@@ -13,5 +14,6 @@ const userProfileReducer = (state = {}, action = {}) => {
 
 export default mergeReducers(
   userProfileReducer,
-  loadEntryReducer([ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ])
+  loadEntryReducer([ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ]),
+  updateEntriesReducer([ UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE ])
 )

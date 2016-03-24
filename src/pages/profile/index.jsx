@@ -1,33 +1,39 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import lifecycle from '../../helpers/lifecycle'
 
-import { loadUserProfile } from '../../redux/actions/userProfile'
+import {
+  loadUserProfile,
+  handleSaveUserProfile
+} from '../../redux/actions/userProfile'
 
-const connector = connect(({ userProfile }) => ({
-  userProfile
-}))
+import Header from './Header'
+import EditProfile from './EditProfile'
 
-class ProfilePage extends Component {
-  constructor (props) {
-    super(props)
-  }
-  componentWillMount () {
-    console.log('componentWillMount')
-    this.props.dispatch(loadUserProfile())
-  }
-  render () {
-    const { userProfile } = this.props
-    const { entry } = userProfile
-    return (
-      <div>
-        <h1>User Profile Page</h1>
-        <p>Name: {entry.name}</p>
-        <p>Role: {entry.role}</p>
-        <Link to='/logout'>Sign out</Link>
+const ProfilePage = ({ userProfile }) => {
+  const { entry } = userProfile
+  return (
+    <div>
+      <Header />
+      <div className='row'>
+        <div className='col-md-6'>
+          <div className='page-header'>
+            <h3>Change your profile</h3>
+          </div>
+          <EditProfile 
+            onSubmit={handleSaveUserProfile}
+            entry={entry} />
+        </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default connector(ProfilePage)
+export default compose(
+  connect(({ userProfile }) => ({ userProfile })),
+  lifecycle({
+    enter: (d) => d(loadUserProfile())
+  })
+)(ProfilePage)

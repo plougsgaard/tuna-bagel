@@ -54,7 +54,6 @@ export function apiLoad ({ dispatch, getState }) {
     }
 
     if (!shouldCall(getState())) {
-      console.log('API was not called due to the wise decision of ', shouldCall)
       return next(action)
     }
 
