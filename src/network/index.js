@@ -49,12 +49,9 @@ const _parseOptions = (options = {}) => {
 }
 
 export const httpRequest = (url, options) => {
-  // console.log('debug_1')
   return new Promise((resolve, reject) => {
-    // console.log('debug_2')
     fetch(_parseUrl(url), _parseOptions(options)).then(
       async (response) => {
-        // console.log('debug_3')
         if (response.status >= 400) {
           try {
             reject({ _error: await response.json() })
@@ -74,7 +71,6 @@ export const httpRequest = (url, options) => {
         }
       },
       async (response) => {
-        console.log('debug_4', response)
         try {
           reject({ _error: await response.json() })
         }

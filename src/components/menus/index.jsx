@@ -14,6 +14,9 @@ const LeftMenu = ({}) => (
 const RightMenu = ({}) => (
   <ul className='nav navbar-nav navbar-right'>
     <MenuLink to='/profile'>Profile</MenuLink>
+    <MenuLink 
+      style={{ color: 'red', opacity: 0.4 }}
+      to='/logout'>Sign Out</MenuLink>
   </ul>
 )
 
