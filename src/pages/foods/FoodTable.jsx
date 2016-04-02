@@ -2,6 +2,8 @@ import React from 'react'
 import { AutoSizer, FlexTable, FlexColumn } from 'react-virtualized'
 import _ from 'lodash'
 
+import { Link } from 'react-router'
+
 const SortDirection = {
   ASC: 'ASC',
   DESC: 'DESC'
@@ -16,6 +18,15 @@ let config = {
   sortBy: 'name',
   sortDirection: SortDirection.ASC,
   useDynamicRowHeight: false
+}
+
+const rowGetter = (entries) => (index) => {
+  console.log(index, entries)
+  return entries[index]
+}
+
+const nameCellRenderer = (cellData, cellDataKey, { id }, rowIndex, columnData) => {
+  return <Link to={`/food/${id}`}>{cellData}</Link>
 }
 
 const FoodTable = ({ foods: { entries } }) => {
@@ -52,11 +63,12 @@ const FoodTable = ({ foods: { entries } }) => {
             <FlexColumn
               label='Name'
               dataKey='name'
+              cellRenderer={nameCellRenderer}
               width={150}
             />
             <FlexColumn
               label='Brand'
-              dataKey='brand'
+              dataKey='brand_name'
               width={150}
             />
             <FlexColumn

@@ -3,6 +3,7 @@ import uuid from 'uuid'
 import { ADD_ONE } from '../middleware/apiAdd'
 import { LOAD_MANY } from '../middleware/apiLoad'
 import { UPDATE_ONE } from '../middleware/apiUpdate'
+import { DELETE_ONE } from '../middleware/apiDelete'
 
 //
 // api
@@ -19,6 +20,10 @@ export const ADD_FAILURE = 'tuna-bagel/food/ADD_FAILURE'
 export const UPDATE_REQUEST = 'tuna-bagel/food/UPDATE_REQUEST'
 export const UPDATE_SUCCESS = 'tuna-bagel/food/UPDATE_SUCCESS'
 export const UPDATE_FAILURE = 'tuna-bagel/food/UPDATE_FAILURE'
+
+export const DELETE_REQUEST = 'tuna-bagel/food/DELETE_REQUEST'
+export const DELETE_SUCCESS = 'tuna-bagel/food/DELETE_SUCCESS'
+export const DELETE_FAILURE = 'tuna-bagel/food/DELETE_FAILURE'
 
 //
 // transient state
@@ -64,6 +69,15 @@ export const addFood = (payload) => {
     payload
   }
 }
+
+export const deleteFood = (id) => ({
+  api: DELETE_ONE,
+  types: [ DELETE_REQUEST, DELETE_SUCCESS, DELETE_FAILURE ],
+  path: '/foods',
+  payload: {
+    id
+  }
+})
 
 //
 // form handlers

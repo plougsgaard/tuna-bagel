@@ -10,6 +10,7 @@ import {
   showAddForm,
   hideAddForm,
   handleAddFood,
+  deleteFood,
   resetTransientState
 } from '../../redux/actions/foods'
 import {
@@ -19,10 +20,12 @@ import {
 import Header from './Header'
 import AddFoodForm from './AddFood'
 import FoodTable from './FoodTable'
+import Details from './Details'
 
-const FoodPage = ({ dispatch, foods, brands }) => {
+const FoodPage = ({ dispatch, foods, brands, params: { foodId } }) => {
   const { addFormVisible } = foods
   const toggleForm = (e) => dispatch(addFormVisible ? hideAddForm() : showAddForm())
+  const editingFood = foodId && _.find(foods.entries, { id: foodId })
   return (
     <div>
       <Header 
@@ -32,6 +35,11 @@ const FoodPage = ({ dispatch, foods, brands }) => {
         <AddFoodForm
           onSubmit={handleAddFood}
           brands={brands} />
+      )}
+      {editingFood && (
+        <Details
+          handleDelete={(e) => dispatch(deleteFood(foodId))}
+          food={editingFood}/>
       )}
       <FoodTable 
         foods={foods} />

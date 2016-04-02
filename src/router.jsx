@@ -33,6 +33,7 @@ const RootRouter = ({ store }) => (
       <Route path='/about' component={AboutPage} />
       <Route path='/profile' component={ProfilePage} />
       <Route path='/hats' component={HatsPage} />
+      <Route path='/food/:foodId' component={FoodPage} />
       <Route path='/food' component={FoodPage} />
     </Route>
   </Router>
