@@ -249,3 +249,56 @@ export const loadEntryReducer = ([
       return state
   }
 }
+
+export const deleteEntryReducer = ([
+  requestType,
+  successType,
+  failureType
+]) => (state = {
+  entries: [],
+  meta: {
+    // [id]: { type: 'delete', state: 'request|success|error' }
+  }
+}, action = {}) => {
+  const { type, body, payload, error } = action
+  const entry = payload && _.find(state.entries, { id: payload.id })
+  switch (type) {
+    case requestType:
+      return {
+        ...state,
+        meta: {
+          ...state.meta,
+          [payload.id]: {
+            type: 'delete',
+            state: 'request'
+          }
+        }
+      }
+    case successType:
+      return {
+        ...state,
+        entries: _.without(state.entries, entry),
+        meta: {
+          ...state.meta,
+          [payload.id]: {
+            type: 'delete',
+            state: 'success'
+          }
+        },
+        lastUpdated: Date.now()
+      }
+    case failureType:
+      return {
+        ...state,
+        meta: {
+          ...state.meta,
+          [payload.id]: {
+            type: 'delete',
+            state: error
+          }
+        }
+      }
+    default:
+      return state
+  }
+}

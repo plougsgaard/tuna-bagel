@@ -4,6 +4,7 @@ import createLogger from 'redux-logger'
 import { apiLoad } from '../middleware/apiLoad'
 import { apiAdd } from '../middleware/apiAdd'
 import { apiUpdate } from '../middleware/apiUpdate'
+import { apiDelete } from '../middleware/apiDelete'
 import { rootReducer } from '../reducers'
 
 const logger = createLogger({
@@ -24,7 +25,8 @@ export default function configureStore(initialState) {
         thunk,
         apiLoad,
         apiAdd,
-        apiUpdate
+        apiUpdate,
+        apiDelete
       ),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
