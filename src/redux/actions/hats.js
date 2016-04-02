@@ -1,8 +1,6 @@
 import uuid from 'uuid'
 
-import { ADD_ONE } from '../middleware/apiAdd'
-import { LOAD_MANY } from '../middleware/apiLoad'
-import { UPDATE_ONE } from '../middleware/apiUpdate'
+import { ADD_ONE, LOAD_MANY, UPDATE_ONE } from '../middleware/api'
 
 export const LOAD_REQUEST = 'tuna-bagel/hats/LOAD_REQUEST'
 export const LOAD_SUCCESS = 'tuna-bagel/hats/LOAD_SUCCESS'

@@ -1,9 +1,6 @@
 import uuid from 'uuid'
 
-import { ADD_ONE } from '../middleware/apiAdd'
-import { LOAD_MANY } from '../middleware/apiLoad'
-import { UPDATE_ONE } from '../middleware/apiUpdate'
-import { DELETE_ONE } from '../middleware/apiDelete'
+import { ADD_ONE, LOAD_MANY, UPDATE_ONE, DELETE_ONE } from '../middleware/api'
 
 //
 // api

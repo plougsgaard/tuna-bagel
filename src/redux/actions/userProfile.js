@@ -1,5 +1,4 @@
-import { LOAD_ONE } from '../middleware/apiLoad'
-import { UPDATE_ONE } from '../middleware/apiUpdate'
+import { LOAD_ONE, UPDATE_ONE } from '../middleware/api'
 
 export const LOAD_REQUEST = 'tuna-bagel/userProfile/LOAD_REQUEST'
 export const LOAD_SUCCESS = 'tuna-bagel/userProfile/LOAD_SUCCESS'
@@ -15,7 +14,7 @@ export const loadUserProfile = () => ({
   path: `/users/profile`
 })
 
-export const handleSaveUserProfile = async (values, dispatch) => 
+export const handleSaveUserProfile = async (values, dispatch) =>
   dispatch({
     api: UPDATE_ONE,
     types: [ UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE ],
