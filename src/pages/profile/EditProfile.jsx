@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Link } from 'react-router'
 import { reduxForm } from 'redux-form'
+import Transition from 'react-motion-ui-pack'
 
 import { validateRequiredFields } from '../../helpers/validators'
 import { FormFieldError, OneLineError, AlertError } from '../../components/errors'
