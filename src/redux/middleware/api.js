@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { httpRequest } from '../../network'
+import { v4 } from 'uuid'
 
 /**
  * Actions
@@ -29,20 +30,22 @@ export const callWhenExpired = (mountPoint, lastUpdatedKey = 'lastUpdated') => (
   return !lastUpdated || lastUpdated < Date.now() - 2*60*1000
 }
 
-const makeRequest = async (dispatch, { types, path, payload, forwardErrors}, options) => {
+const makeRequest = async (dispatch, { types, path, payload, forwardErrors}, options, transactionId) => {
   const [ requestType, successType, failureType ] = types
   try {
     dispatch({
       type: successType,
       body: await httpRequest(path, options),
-      payload // TODO replace stuff like this with a transaction id or something
+      payload,
+      transactionId
     })
   }
   catch ({ _error }) {
     dispatch({
       type: failureType,
       error: _error,
-      payload
+      payload,
+      transactionId
     })
     if (forwardErrors) {
       throw { _error }
@@ -90,7 +93,7 @@ export function apiMiddleware ({ dispatch, getState }) {
     }
 
     const [ requestType ] = types
-
+    const transactionId = v4()
     const options = {
       headers: { token: _.get(getState(), tokenPath) },
       method: apiToMethod(api),
@@ -100,10 +103,11 @@ export function apiMiddleware ({ dispatch, getState }) {
     // make initial request leading to either success or failure
     dispatch({
       type: requestType,
-      payload
+      payload,
+      transactionId
     })
 
     // indirectly dispatch either a success or failure action
-    return await makeRequest(dispatch, action, options)
+    return await makeRequest(dispatch, action, options, transactionId)
   }
 }

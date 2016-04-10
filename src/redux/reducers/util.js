@@ -13,292 +13,105 @@ export const mergeReducers = (...reducers) => {
     _.reduce(reducers, (memo, reducer) => reducer(memo, action), state)
 }
 
-export const addEntriesReducer = ([
-  requestType,
-  successType,
-  failureType
-]) => (state = {
-  entries: [],
-  entriesAdd: [],
-  errorAdd: null,
-  statsAdd: {
-    timesRequested: 0,
-    timesFailed: 0
-  }
-}, action = {}) => {
-  const { type, body, payload, error } = action
-  switch (type) {
-    case requestType:
-      return {
-        ...state,
-        entriesAdd: _.concat(state.entriesAdd, payload),
-        statsAdd: {
-          ...state.statsAdd,
-          timesRequested: (state.statsAdd.timesRequested + 1)
-        }
-      }
-    case successType:
-      return {
-        ...state,
-        entries: _.concat(state.entries, body),
-        entriesAdd: _.without(state.entriesAdd, payload),
-        lastUpdated: Date.now()
-      }
-    case failureType:
-      return {
-        ...state,
-        errorAdd: error,
-        statsAdd: {
-          ...state.statsAdd,
-          timesFailed: (state.statsAdd.timesFailed + 1)
-        }
-      }
-    default:
-      return state
-  }
-}
+const getDefaultState = (entryKey) => ({
+  [entryKey]: null, // entry|entries
+  transactions: {},
+  lastUpdated: null
+})
 
-export const updateEntriesReducer = ([
+const apiReducer = ({ actionType, transform, entryKey = 'entries' }) => ([
   requestType,
   successType,
   failureType
-]) => (state = {
-  entries: [],
-  entriesUpdate: [],
-  errorUpdate: null,
-  statsUpdate: {
-    timesRequested: 0,
-    timesFailed: 0
-  }
-}, action = {}) => {
-  const { type, body, payload, error } = action
-  const entry = payload && _.find(state.entries, { id: payload.id })
+]) => (state = getDefaultState(entryKey), action = {}) => {
+  const {
+    type,
+    body,
+    payload,
+    error,
+    transactionId
+  } = action
   switch (type) {
     case requestType:
       return {
         ...state,
-        entriesUpdate: _.concat(state.entriesUpdate, payload),
-        statsUpdate: {
-          ...state.statsUpdate,
-          timesRequested: (state.statsUpdate.timesRequested + 1)
-        }
-      }
-    case successType:
-      return {
-        ...state,
-        entries: _.concat(_.without(state.entries, entry), body),
-        entriesUpdate: _.without(state.entriesUpdate, payload),
-        lastUpdated: Date.now()
-      }
-    case failureType:
-      return {
-        ...state,
-        errorUpdate: error,
-        statsUpdate: {
-          ...state.statsUpdate,
-          timesFailed: (state.statsUpdate.timesFailed + 1)
-        }
-      }
-    default:
-      return state
-  }
-}
-
-export const updateEntryReducer = ([
-  requestType,
-  successType,
-  failureType
-]) => (state = {
-  entry: {},
-  errorUpdate: null,
-  statsUpdate: {
-    timesRequested: 0,
-    timesFailed: 0
-  }
-}, action = {}) => {
-  const { type, body, payload, error } = action
-  const entry = payload && _.find(state.entries, { id: payload.id })
-  switch (type) {
-    case requestType:
-      return {
-        ...state,
-        loading: true,
-        statsUpdate: {
-          ...state.statsUpdate,
-          timesRequested: (state.statsUpdate.timesRequested + 1)
-        }
-      }
-    case successType:
-      return {
-        ...state,
-        loading: false,
-        entry: body,
-        lastUpdated: Date.now()
-      }
-    case failureType:
-      return {
-        ...state,
-        loading: false,
-        errorUpdate: error,
-        statsUpdate: {
-          ...state.statsUpdate,
-          timesFailed: (state.statsUpdate.timesFailed + 1)
-        }
-      }
-    default:
-      return state
-  }
-}
-
-export const loadEntriesReducer = ([
-  requestType,
-  successType,
-  failureType
-]) => (state = {
-  loaded: false,
-  loading: false,
-  lastUpdated: null,
-  entries: [],
-  errorLoad: null,
-  statsLoad: {
-    timesRequested: 0,
-    timesFailed: 0
-  }
-}, action = {}) => {
-  const { type, body, error } = action
-  switch (type) {
-    case requestType:
-      return {
-        ...state,
-        loading: true,
-        statsLoad: {
-          ...state.statsLoad,
-          timesRequested: (state.statsLoad.timesRequested + 1)
-        }
-      }
-    case successType:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-        entries: body,
-        lastUpdated: Date.now()
-      }
-    case failureType:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        errorLoad: error,
-        statsLoad: {
-          ...state.statsLoad,
-          timesFailed: (state.statsLoad.timesFailed + 1)
-        }
-      }
-    default:
-      return state
-  }
-}
-
-export const loadEntryReducer = ([
-  requestType,
-  successType,
-  failureType
-]) => (state = {
-  loading: false,
-  loaded: false,
-  lastUpdated: null,
-  entry: {},
-  errorLoad: null,
-  statsLoad: {
-    timesRequested: 0,
-    timesFailed: 0
-  }
-}, action = {}) => {
-  const { type, body, error } = action
-  switch (type) {
-    case requestType:
-      return {
-        ...state,
-        loading: true,
-        statsLoad: {
-          ...state.statsLoad,
-          timesRequested: (state.statsLoad.timesRequested + 1)
-        }
-      }
-    case successType:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-        entry: body,
-        lastUpdated: Date.now()
-      }
-    case failureType:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        errorLoad: error,
-        statsLoad: {
-          ...state.statsLoad,
-          timesFailed: (state.statsLoad.timesFailed + 1)
-        }
-      }
-    default:
-      return state
-  }
-}
-
-export const deleteEntryReducer = ([
-  requestType,
-  successType,
-  failureType
-]) => (state = {
-  entries: [],
-  meta: {
-    // [id]: { type: 'delete', state: 'request|success|error' }
-  }
-}, action = {}) => {
-  const { type, body, payload, error } = action
-  const entry = payload && _.find(state.entries, { id: payload.id })
-  switch (type) {
-    case requestType:
-      return {
-        ...state,
-        meta: {
-          ...state.meta,
-          [payload.id]: {
-            type: 'delete',
-            state: 'request'
+        transactions: {
+          ...state.transactions,
+          [transactionId]: {
+            actionType,
+            stage: 'request'
           }
-        }
-      }
+        }}
     case successType:
       return {
         ...state,
-        entries: _.without(state.entries, entry),
-        meta: {
-          ...state.meta,
-          [payload.id]: {
-            type: 'delete',
-            state: 'success'
+        [entryKey]: transform(state, action),
+        lastUpdated: Date.now(),
+        transactions: {
+          ...state.transactions,
+          [transactionId]: {
+            actionType,
+            stage: 'success'
           }
-        },
-        lastUpdated: Date.now()
-      }
+        }}
     case failureType:
       return {
         ...state,
-        meta: {
-          ...state.meta,
-          [payload.id]: {
-            type: 'delete',
-            state: error
+        transactions: {
+          ...state.transactions,
+          [transactionId]: {
+            actionType,
+            stage: 'failure',
+            error
           }
-        }
-      }
+        }}
     default:
       return state
   }
 }
+
+//
+// CRUD API Reducers for collections ('entries')
+//
+
+export const addEntriesReducer = apiReducer({
+  actionType: 'add',
+  transform: (state, action) => _.concat(state.entries, action.body)
+})
+
+export const loadEntriesReducer = apiReducer({
+  actionType: 'load',
+  transform: (state, { body }) => body
+})
+
+export const updateEntriesReducer = apiReducer({
+  actionType: 'update',
+  transform: ({ entries }, { payload, body }) => {
+    const entry = payload && _.find(entries, { id: payload.id })
+    return _.concat(_.without(entries, entry), body)
+  }
+})
+
+export const deleteEntriesReducer = apiReducer({
+  actionType: 'delete',
+  transform: ({ entries }, { payload, body }) => {
+    const entry = payload && _.find(entries, { id: payload.id })
+    return _.without(entries, entry)
+  }
+})
+
+//
+// CRUD API Reducers for singletons ('entry')
+//
+
+export const loadEntryReducer = apiReducer({
+  actionType: 'load',
+  transform: (state, { body }) => body,
+  entryKey: 'entry'
+})
+
+export const updateEntryReducer = apiReducer({
+  actionType: 'update',
+  transform: (state, { body }) => body,
+  entryKey: 'entry'
+})

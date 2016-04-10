@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import {
   mergeReducers,
-  loadEntriesReducer, addEntriesReducer, updateEntriesReducer, deleteEntryReducer
+  loadEntriesReducer, addEntriesReducer, updateEntriesReducer, deleteEntriesReducer
 } from './util'
 import {
   LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE,
@@ -44,6 +44,6 @@ export default mergeReducers(
   foodReducer,
   loadEntriesReducer([ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ]),
   updateEntriesReducer([ UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE ]),
-  deleteEntryReducer([ DELETE_REQUEST, DELETE_SUCCESS, DELETE_FAILURE ]),
+  deleteEntriesReducer([ DELETE_REQUEST, DELETE_SUCCESS, DELETE_FAILURE ]),
   addEntriesReducer([ ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE ])
 )
