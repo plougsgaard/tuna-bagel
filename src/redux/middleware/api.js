@@ -23,11 +23,11 @@ export const callWhenNoData = (mountPoint, dataKey = 'body') => (state) =>
   _.isEmpty(_.get(state, `${mountPoint}.${dataKey}`))
 
 /**
- * Cache Strategy: Call when data hasn't recently been updated (2 minutes)
+ * Cache Strategy: Call when data hasn't recently been updated (15 minutes)
  */
 export const callWhenExpired = (mountPoint, lastUpdatedKey = 'lastUpdated') => (state) => {
   const lastUpdated = _.get(state, `${mountPoint}.${lastUpdatedKey}`)
-  return !lastUpdated || lastUpdated < Date.now() - 2*60*1000
+  return !lastUpdated || lastUpdated < Date.now() - 15*60*1000
 }
 
 const makeRequest = async (dispatch, { types, path, payload, forwardErrors}, options, transactionId) => {

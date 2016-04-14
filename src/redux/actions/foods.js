@@ -1,6 +1,11 @@
 import uuid from 'uuid'
 
-import { ADD_ONE, LOAD_MANY, UPDATE_ONE, DELETE_ONE } from '../middleware/api'
+import {
+  ADD_ONE, LOAD_MANY, UPDATE_ONE, DELETE_ONE,
+  callWhenExpired
+} from '../middleware/api'
+
+const MOUNT_POINT = 'foods'
 
 //
 // api
@@ -54,7 +59,8 @@ export const resetTransientState = () => ({
 export const loadFoods = () => ({
   api: LOAD_MANY,
   types: [ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ],
-  path: '/foods'
+  path: '/foods',
+  shouldCall: callWhenExpired(MOUNT_POINT)
 })
 
 export const addFood = (payload) => {

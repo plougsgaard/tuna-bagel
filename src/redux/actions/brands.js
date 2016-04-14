@@ -1,6 +1,11 @@
 import uuid from 'uuid'
 
-import { ADD_ONE, LOAD_MANY, UPDATE_ONE } from '../middleware/api'
+import {
+  ADD_ONE, LOAD_MANY, UPDATE_ONE,
+  callWhenExpired
+} from '../middleware/api'
+
+const MOUNT_POINT = 'brands'
 
 export const LOAD_REQUEST = 'tuna-bagel/brands/LOAD_REQUEST'
 export const LOAD_SUCCESS = 'tuna-bagel/brands/LOAD_SUCCESS'
@@ -13,7 +18,8 @@ export const ADD_FAILURE = 'tuna-bagel/brands/ADD_FAILURE'
 export const loadBrands = () => ({
   api: LOAD_MANY,
   types: [ LOAD_REQUEST, LOAD_SUCCESS, LOAD_FAILURE ],
-  path: '/brands'
+  path: '/brands',
+  shouldCall: callWhenExpired(MOUNT_POINT)
 })
 
 export const addBrand = (name) => {
