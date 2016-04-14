@@ -2,8 +2,10 @@ import React from 'react'
 import _ from 'lodash'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
+import { compose, withState } from 'recompose'
 import lifecycle from '../../helpers/lifecycle'
+
+import { VelocityComponent } from 'velocity-react'
 
 import {
   loadFoods,
@@ -20,21 +22,42 @@ import {
 import Header from './Header'
 import FoodShallowList from './FoodShallowList'
 
-const HomePage = ({ dispatch, foods, brands, params: { foodId } }) => {
-  const { addFormVisible } = foods
-  const toggleForm = (e) => dispatch(addFormVisible ? hideAddForm() : showAddForm())
-  const editingFood = foodId && _.find(foods.entries, { id: foodId })
+const HomePage = ({
+  dispatch, foods, brands, // redux
+  params: { foodId }, // router
+  state, setState // withState
+}) => {
+  const markFn = (id) =>
+    setState({
+      ...state,
+      markedFoodId: state.markedFoodId !== id ? id : null })
+
   return (
     <div>
       <Header />
-      <p>Humans love lists and so do you! Have fun.</p>
-      <FoodShallowList foods={foods} />
+      <div className='row'>
+        <div className='col-md-6'>
+          <FoodShallowList
+            foods={foods}
+            markFn={markFn}
+            markedId={state.markedFoodId} />
+        </div>
+        <div className='col-md-6'>
+          <FoodShallowList
+            foods={brands}
+            markFn={markFn}
+            markedId={state.markedFoodId} />
+        </div>
+      </div>
     </div>
   )
 }
 
 export default compose(
   connect(({ foods, brands }) => ({ foods, brands })),
+  withState('state', 'setState', {
+    markedFoodId: null
+  }),
   lifecycle({
     enter: (d) => {
       d(loadBrands())

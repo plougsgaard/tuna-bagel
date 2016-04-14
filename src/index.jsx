@@ -2,6 +2,10 @@
 require('babel-core/register')
 require('babel-polyfill')
 
+// animations - also nonsense
+require('velocity-animate')
+require('velocity-animate/velocity.ui')
+
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
