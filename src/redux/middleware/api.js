@@ -89,7 +89,8 @@ export function apiMiddleware ({ dispatch, getState }) {
     }
 
     if (!shouldCall(getState())) {
-      return next(action)
+      // terminate the chain
+      return
     }
 
     const [ requestType ] = types
