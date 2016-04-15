@@ -1,3 +1,9 @@
+.list-group-item-with-hover:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: #555555;
+  background-color: #f5f5f5; }
+
 input[data-toggle] {
   display: none; }
 
@@ -82,4 +88,3 @@ input[data-toggle]:checked + label:active {
   font-size: 1em;
   color: #bdbdbd;
 }
-

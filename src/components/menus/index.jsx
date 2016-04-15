@@ -14,14 +14,14 @@ const LeftMenu = ({}) => (
 const RightMenu = ({}) => (
   <ul className='nav navbar-nav navbar-right'>
     <MenuLink to='/profile'>Profile</MenuLink>
-    <MenuLink 
+    <MenuLink
       style={{ color: 'red', opacity: 0.4 }}
       to='/logout'>Sign Out</MenuLink>
   </ul>
 )
 
 export const TopBar = ({ collapsed, toggleCollapse }) => (
-  <div className='navbar navbar-default'>
+  <div className='navbar navbar-inverse'>
     <div className='container'>
       <div className='navbar-header'>
         <Link to='/' className='navbar-brand'>Tuna Bagel</Link>

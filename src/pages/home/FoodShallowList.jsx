@@ -15,24 +15,21 @@ const FoodItem = ({
   style
 }) => {
   return (
-    <div key={`FoodItem${id}`}>
-      <NoopLink
-        onClick={() => markFn(id)}
-        className='list-group-item'>
+    <li
+      key={`FoodItem${id}`}
+      className='list-group-item list-group-item-with-hover'
+      onClick={() => markFn(id)}>
         <div className='list-group-item-heading'>{name}</div>
-      </NoopLink>
       <VelocityTransitionGroup
         enter={{ animation: 'slideDown' }}
         leave={{ animation: 'slideUp' }}>
         {id === markedId &&
-          <div className='list-group-item'>
-            <p className='list-group-item-text'>
-              Lorem ipsum dolor sit amet, te mei mediocrem assentior,
-              sit te vocent apeirian voluptaria.
-            </p>
-          </div>}
+          <p className='list-group-item-text'>
+            Lorem ipsum dolor sit amet, te mei mediocrem assentior,
+            sit te vocent apeirian voluptaria.
+          </p>}
       </VelocityTransitionGroup>
-    </div>
+    </li>
   )
 }
 
@@ -55,7 +52,7 @@ const FoodShallowList = ({
       <VelocityTransitionGroup
         className='list-group'
         runOnMount={true}
-        component='div'>
+        component='ul'>
         {items}
       </VelocityTransitionGroup>
     </div>
